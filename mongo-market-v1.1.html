@@ -1,0 +1,5332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keid List</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: #3498db;
+        }
+        
+        button, .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-success {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #27ae60;
+        }
+        
+        .btn-danger {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        
+        .container {
+            max-width: 1900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        header {
+			background-color: white;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+			position: sticky;
+			top: 0;
+			z-index: 1000;
+		}
+
+		.header-container {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 15px 20px;
+			max-width: 1500px;
+			margin: 0 auto;
+		}
+
+		.logo {
+			font-size: 28px;
+			font-weight: 700;
+			margin-right: auto;
+			color: #3498db;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.logo i {
+			font-size: 32px;
+			color: #3498db;
+		}
+
+		.search-container {
+			display: flex;
+			flex-grow: 1;
+			max-width: 600px;
+			margin: 0 20px;
+			background-color: rgba(52, 152, 219, 0.1);
+			border-radius: 8px;
+			padding: 0px;
+			box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+		}
+
+		.search-container input,
+		.search-container select {
+			padding: 10px 15px;
+			border: none;
+			min-width: 70px;
+			background: transparent;
+			font-size: 14px;
+			outline: none;
+		}
+
+		.search-container input {
+			flex-grow: 1;
+			border-radius: 8px 0 0 8px;
+		}
+
+		.search-container select {
+			width: 150px;
+			border-left: 1px solid #ddd;
+			border-radius: 0 8px 8px 0;
+		}
+
+		.search-container button {
+			background-color: #3498db;
+			color: white;
+			border: none;
+			padding: 10px 20px;
+			border-radius: 12px;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+
+		.search-container button:hover {
+			background-color: #2980b9;
+		}
+        
+        .user-actions {
+			display: flex;
+			align-items: center;
+			gap: 15px;
+		}
+        
+        .user-profile {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			margin-left: 3px;
+			cursor: pointer;
+		}
+
+		.user-profile img {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			object-fit: cover;
+		}
+
+		.user-profile span {
+			font-size: 14px;
+			font-weight: 500;
+			color: #333;
+		}
+        
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+		 .dropdown-content {
+			display: none;
+			position: absolute;
+			right: 0;
+			top: 100%;
+			background-color: white;
+			min-width: 160px;
+			box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+			z-index: 1000;
+			border-radius: 8px;
+			overflow: hidden;
+		}
+
+		.dropdown-content a {
+			color: #333;
+			padding: 12px 16px;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			font-size: 14px;
+			transition: background-color 0.3s ease;
+		}
+
+		.dropdown-content a:hover {
+			background-color: #f5f5f5;
+		}
+
+		.dropdown-content a i {
+			width: 20px;
+			text-align: center;
+		}
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+		
+		/* About Us Page */
+		.about-container {
+			background-color: white;
+			border-radius: 12px;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+			padding: 30px;
+			max-width: 800px;
+			margin: 0 auto;
+		}
+
+		.about-content {
+			line-height: 1.8;
+			color: #555;
+			font-size: 16px;
+		}
+
+		.about-content p {
+			margin-bottom: 20px;
+		}
+		
+		.sort-dropdown {
+			padding: 10px;
+			border: 1px solid #ddd;
+			border-radius: 8px;
+			width: 130px;
+			font-size: 14px;
+			color: #333;
+			background-color: white;
+			cursor: pointer;
+			transition: border-color 0.3s ease;
+		}
+
+		.sort-dropdown:hover {
+			border-color: #3498db;
+		}
+
+		.contact-container {
+			background-color: white;
+			border-radius: 12px;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+			padding: 30px;
+			max-width: 800px;
+			margin: 0 auto;
+		}
+
+		.contact-subtitle {
+			font-size: 16px;
+			color: #7f8c8d;
+			margin-bottom: 30px;
+			text-align: center;
+		}
+		
+		/* Not Found Container */
+		.not-found-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 70vh; /* Center vertically on the page */
+			background-color: white;
+			border-radius: 12px;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+			padding: 20px;
+		}
+		
+		.not-found-compressed {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding: 20px;
+		}
+
+		.not-found-content {
+			text-align: center;
+			max-width: 400px;
+		}
+
+		.not-found-icon {
+			font-size: 64px;
+			color: aliceblue;
+			margin-bottom: 20px;
+		}
+
+		.not-found-title {
+			font-size: 28px;
+			font-weight: 700;
+			color: #2c3e50;
+			margin-bottom: 10px;
+		}
+
+		.not-found-message {
+			font-size: 16px;
+			color: #7f8c8d;
+			margin-bottom: 20px;
+		}
+        
+        /* Navigation */
+        nav {
+			background-color: #2c3e50;
+			padding: 10px 0;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+		}
+        
+        nav ul {
+			display: flex;
+			justify-content: center;
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			gap: 20px;
+			scrollbar-width: none;
+		}
+		
+		nav ul::-webkit-scrollbar {
+			display: none;
+		}
+        
+        nav ul li {
+			position: relative;
+			margin-top: 3px;
+		}
+
+		nav ul li a {
+			color: white;
+			font-weight: 500;
+			font-size: 16px;
+			padding: 10px 15px;
+			border-radius: 8px;
+			transition: all 0.3s ease;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+
+		nav ul li a:hover {
+			background-color: rgba(255, 255, 255, 0.1);
+			color: #3498db;
+			transform: translateY(-2px);
+		}
+
+		nav ul li a i {
+			font-size: 18px;
+		}
+		
+		nav ul li a.active {
+			background-color: #3498db;
+			color: white;
+		}
+		
+		/* Hero Section */
+		.hero {
+			background-image: url('https://picsum.photos/1200/500?random=1');
+			height: 400px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-size: cover;
+			background-position: center;
+			color: white;
+			text-align: center;
+			margin: 0 -10px 40px -10px;
+			border-radius: 12px;
+			position: relative;
+		}
+
+		.hero::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			border-radius: 12px;
+		}
+
+		.hero-content {
+			position: relative;
+			backdrop-filter: blur(10px);
+			z-index: 1;
+			margin: 10px;
+			max-width: 600px;
+			padding: 20px;
+			background-color: rgba(0, 0, 0, 0.5);
+			border-radius: 12px;
+		}
+
+		.hero h1 {
+			font-size: 36px;
+			font-weight: 700;
+			margin-bottom: 15px;
+		}
+
+		.hero p {
+			font-size: 18px;
+			margin-bottom: 20px;
+		}
+
+		.hero-buttons {
+			display: flex;
+			justify-content: center;
+			gap: 15px;
+		}
+
+		.hero-buttons button {
+			padding: 12px 24px;
+			font-size: 16px;
+			border-radius: 8px;
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+		}
+
+		.hero-buttons button:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+		}
+        
+        /* Main Content Styles */
+        main {
+			padding: 40px 0;
+			background-color: #f9f9f9;
+		}
+
+		.section-title {
+			font-size: 28px;
+			font-weight: 700;
+			margin-bottom: 20px;
+			color: #2c3e50;
+			position: relative;
+			padding-bottom: 10px;
+		}
+		
+		.section-title::after {
+			content: '';
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 60px;
+			height: 4px;
+			background-color: #3498db;
+			border-radius: 2px;
+		}
+        
+        .section-subtitle {
+			font-size: 16px;
+			color: #7f8c8d;
+			margin-bottom: 30px;
+		}
+
+		.listings-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+			gap: 20px;
+			margin-bottom: 40px;
+		}
+
+		.listing-card {
+			background-color: white;
+			border-radius: 12px;
+			overflow: hidden;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+			display: flex;
+			flex-direction: column; /* Make the card a flex container */
+			height: 100%; /* Ensure the card takes full height */
+		}
+
+		.listing-card:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+		}
+
+		.listing-image {
+			height: 200px;
+			background-size: cover;
+			background-position: center;
+			position: relative;
+		}
+
+		.listing-type {
+			position: absolute;
+			top: 10px;
+			left: 10px;
+			padding: 6px 12px;
+			border-radius: 8px;
+			font-size: 12px;
+			font-weight: 700;
+			text-transform: uppercase;
+			color: white;
+		}
+
+		.type-product {
+			background-color: #3498db;
+		}
+
+		.type-service {
+			background-color: #9b59b6;
+		}
+
+		.listing-content {
+			padding: 20px 20px 10px 20px;
+			flex-grow: 1; /* Allow the content to grow and push actions to the bottom */
+			display: flex;
+			flex-direction: column;
+		}
+
+
+		.listing-title {
+			font-size: 18px;
+			font-weight: 600;
+			margin-bottom: 2px;
+			color: #2c3e50;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			line-height: 1.4;
+			max-height: 2.8em;
+		}
+				
+        .listing-price {
+			font-size: 20px;
+			font-weight: 700;
+			color: #2ecc71;
+			margin-bottom: 1px;
+		}
+
+		.listing-location {
+			font-size: 14px;
+			color: #7f8c8d;
+			margin-bottom: 2px;
+			margin-left: 8px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			max-width: 100%;
+			align-items: center;
+		}
+
+		.listing-location i {
+			color: #3498db;
+		}
+				
+		.listing-lister {
+			color: #7f8c8d;
+			font-size: 14px;
+			margin-bottom: 10px;
+			margin-left: 8px;
+			white-space: nowrap;
+			overflow: hidden;
+			border-radius: 8px;
+			text-overflow: ellipsis;
+			max-width: 100%;
+		}
+
+		.listing-lister i {
+			color: #3498db;
+		}
+        
+		.listing-actions {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			border-top: 1px solid #eee;
+			padding-top: 10px;
+			margin-top: auto; /* Push actions to the bottom */
+		}
+        
+		.listing-like,
+		.listing-favorite {
+			background: none;
+			border: none;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			font-size: 14px;
+			color: #7f8c8d;
+			transition: color 0.3s ease;
+		}
+		
+		.listing-like:hover,
+		.listing-favorite:hover {
+			color: #3498db;
+		}
+        
+        .listing-like i, .listing-favorite i {
+            margin-right: 5px;
+        }
+        
+        .listing-like.active {
+			color: #3498db;
+		}
+
+		.listing-favorite.active {
+			color: #e74c3c;
+		}
+		
+		/* Category Section */
+		.category-scroll {
+			display: flex;
+			gap: 20px;
+			overflow-x: auto;
+			padding-bottom: 10px;
+			scrollbar-width: none;
+		}
+
+		.category-scroll::-webkit-scrollbar {
+			display: none;
+		}
+
+		.category-card {
+			flex: 0 0 auto;
+			width: 250px;
+			background-color: white;
+			border-radius: 12px;
+			overflow: hidden;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+			cursor: pointer;
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+		}
+
+		.category-card:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+		}
+
+		.category-card img {
+			width: 100%;
+			height: 150px;
+			object-fit: cover;
+		}
+
+		.category-card h3 {
+			font-size: 18px;
+			font-weight: 600;
+			margin: 15px 0 10px;
+			padding: 0 15px;
+			color: #2c3e50;
+		}
+
+		.category-card p {
+			font-size: 14px;
+			color: #7f8c8d;
+			padding: 0 15px 15px;
+		}
+        
+        /* Detail Page */
+        .detail-container {
+			background-color: white;
+			border-radius: 12px;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+			overflow: hidden;
+			margin-bottom: 30px;
+		}
+
+		.detail-header {
+			position: relative;
+			height: 400px;
+			background-size: cover;
+			background-position: center;
+			display: flex;
+			align-items: flex-end;
+		}
+
+		.detail-overlay {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			padding: 30px;
+			background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+			color: white;
+		}
+
+		.detail-title {
+			font-size: 32px;
+			font-weight: 700;
+			margin-bottom: 10px;
+		}
+
+		.detail-meta {
+			display: flex;
+			gap: 20px;
+			margin-bottom: 15px;
+			flex-wrap: wrap;
+		}
+
+		.detail-meta div {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			font-size: 14px;
+			color: #e0e0e0;
+		}
+
+		.detail-meta i {
+			font-size: 16px;
+			color: #3498db;
+		}
+
+		.detail-content {
+			padding: 30px;
+		}
+
+		.detail-price {
+			font-size: 28px;
+			font-weight: 700;
+			color: #2ecc71;
+			margin-bottom: 20px;
+		}
+
+		.detail-description {
+			font-size: 16px;
+			line-height: 1.8;
+			color: #555;
+			margin-bottom: 30px;
+		}
+
+		.detail-actions button {
+			flex: 1;
+			min-width: 150px;
+			border-radius: 8px;
+			transition: all 0.3s ease;
+		}
+
+		.detail-actions button:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+		}
+		
+		.detail-section {
+			margin-top: 30px;
+			margin-bottom: 30px;
+		}
+
+		.detail-section-title {
+			font-size: 24px;
+			font-weight: 600;
+			margin-bottom: 20px;
+			color: #2c3e50;
+		}
+        
+        .gallery {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+			gap: 15px;
+		}
+
+		.gallery-item {
+			height: 150px;
+			background-size: cover;
+			background-position: center;
+			border-radius: 8px;
+			cursor: pointer;
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+		}
+
+		.gallery-item:hover {
+			transform: scale(1.05);
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+		}
+        
+        /* Profile Page */
+        .profile-header {
+			display: flex;
+			align-items: center;
+			margin-bottom: 30px;
+			padding: 20px;
+			background-color: white;
+			border-radius: 12px;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+		}
+
+		.profile-avatar {
+			width: 120px;
+			height: 120px;
+			border-radius: 50%;
+			margin-right: 30px;
+			object-fit: cover;
+			border: 3px solid #3498db;
+		}
+
+		.profile-info {
+			flex-grow: 1;
+		}
+
+		.profile-name {
+			font-size: 24px;
+			margin-bottom: 5px;
+			color: #2c3e50;
+		}
+
+		.profile-meta {
+			color: #7f8c8d;
+			margin-bottom: 15px;
+		}
+
+		.profile-meta div {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			margin-bottom: 5px;
+		}
+
+		.profile-stats {
+			display: flex;
+			gap: 20px;
+			margin-bottom: 15px;
+		}
+
+		.profile-stat {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			font-size: 14px;
+			color: #7f8c8d;
+		}
+
+		.profile-stat i {
+			color: #3498db;
+		}
+
+		.profile-actions {
+			display: flex;
+			gap: 10px;
+		}
+
+		.profile-actions button {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			padding: 8px 16px;
+			border-radius: 8px;
+			font-size: 14px;
+			font-weight: 500;
+			transition: all 0.3s ease;
+		}
+
+		.profile-actions button i {
+			font-size: 16px;
+		}
+
+		.profile-actions button:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+		}
+        
+        .tab-container {
+			background-color: white;
+			border-radius: 12px;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+			padding: 20px;
+		}
+
+		.tabs {
+			display: flex;
+			border-bottom: 1px solid #ddd;
+			margin-bottom: 20px;
+		}
+
+		.tab {
+			padding: 10px 20px;
+			cursor: pointer;
+			border-bottom: 3px solid transparent;
+			font-weight: 500;
+			color: #7f8c8d;
+			transition: all 0.3s ease;
+		}
+
+		.tab.active {
+			border-bottom-color: #3498db;
+			color: #3498db;
+		}
+
+		.tab:hover {
+			color: #3498db;
+			background-color: rgba(52, 152, 219, 0.1);
+			border-radius: 5px 5px 0 0;
+		}
+
+		.tab-content {
+			display: none;
+		}
+
+		.tab-content.active {
+			display: block;
+		}
+
+        
+        /* Forms */
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .form-title {
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 24px;
+        }
+        
+        .image-upload {
+            border: 2px dashed #ddd;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .image-upload i {
+            font-size: 48px;
+            color: #ddd;
+            margin-bottom: 10px;
+        }
+        
+        .image-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .image-preview-item {
+            width: 80px;
+            height: 80px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+            position: relative;
+        }
+        
+        .image-preview-item .remove {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        /* Dashboard */
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 30px;
+        }
+        
+        .dashboard-sidebar {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        
+        .dashboard-nav {
+            list-style: none;
+        }
+        
+        .dashboard-nav li {
+            margin-bottom: 10px;
+        }
+        
+        .dashboard-nav a {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 8px;
+            color: #333;
+        }
+        
+        .dashboard-nav a:hover, .dashboard-nav a.active {
+            background-color: #f5f5f5;
+            color: #3498db;
+        }
+        
+        .dashboard-nav i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .dashboard-content {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .dashboard-title {
+            font-size: 24px;
+        }
+        
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #7f8c8d;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        table th, table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        table th {
+            background-color: #f5f5f5;
+            font-weight: 500;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+			background-color: white;
+			border-radius: 12px;
+			width: 90%;
+			padding: 10px;
+			max-width: 600px;
+			max-height: 90vh; /* Limit modal height to 90% of the viewport height */
+			overflow: hidden; /* Ensure the modal content doesn't overflow */
+			display: flex;
+			flex-direction: column; /* Stack header, body, and footer vertically */
+			position: relative;
+			animation: modalopen 0.3s;
+		}
+        
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 20px;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+        
+        .modal-body {
+			padding: 20px;
+			overflow-y: auto; 
+			scrollbar-width: none;
+			flex-grow: 1; 
+		}
+
+		.modal-header, .modal-footer {
+			flex-shrink: 0;
+		}
+        
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        @keyframes modalopen {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 40px 0;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bdc3c7;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            color: white;
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .social-links a:hover {
+            background-color: #3498db;
+        }
+        
+        .footer-bottom {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: #bdc3c7;
+        }
+		
+		/* Desktop Actions */
+		.desktop-actions {
+			display: flex;
+			gap: 10px;
+		}
+
+		.mobile-actions {
+			display: none;
+		}
+
+		/* Guest User Icon */
+		.guest-user-icon {
+			width: 40px;
+			height: 40px;
+			border-radius: 12px;
+			margin-left: 3px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: transparent;
+			color: #3498db;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+
+		.guest-user-icon:hover {
+			background-color: rgba(52, 152, 219, 0.1);
+		}
+
+		/* Dropdown for Guest User */
+		#guest-dropdown {
+			display: none;
+			position: absolute;
+			right: 0;
+			top: 100%;
+			background-color: white;
+			min-width: 120px;
+			box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+			z-index: 1000;
+			border-radius: 8px;
+		}
+
+		#guest-dropdown a {
+			color: #333;
+			padding: 12px 16px;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		#guest-dropdown a i {
+			width: 20px;
+			text-align: center;
+		}
+
+		#guest-dropdown a:hover {
+			background-color: #f5f5f5;
+		}
+        
+		
+        /* Responsive */
+        @media (max-width: 768px) {	
+		
+			.profile-header {
+				padding: 10px;
+			}
+			
+			.profile-avatar {
+				margin-right: 20px;
+			}
+				
+             .header-container {
+				padding: 10px;
+			}
+
+			.search-container {
+				display: none;
+				position: absolute;
+				top: 99%;
+				left: 0;
+				right: 0;
+				margin: 0;
+				padding: 10px;
+				background-color: white;
+				border-radius: 0 0 10px 10px;
+				box-shadow: 0 8px 20px -10px rgba(0, 0, 0, 0.1);
+			}
+
+			.search-container.active {
+				display: flex;
+			}
+
+			.mobile-search-icon {
+				display: flex;
+				width: 40px;
+				height: 40px;
+				border-radius: 12px;
+				margin-right: 7px;
+				font-size: 19px;
+				color: #3498db;
+				background-color: transparent;
+				align-items: center;
+				justify-content: center;
+				transition: color 0.3s ease;
+			}
+			
+			.mobile-search-icon:hover {
+				background-color: rgba(52, 152, 219, 0.1);
+			}
+			
+			.user-actions {
+				margin-left: 0px; /* Push user-actions to the right */
+			}
+			
+			#f-size{
+				font-size: 26px;
+			}
+			
+			.gallery {
+				grid-template-columns: repeat(2, 1fr);
+			}
+
+			.logo {
+				font-size: 24px;
+			}
+			.logo i{
+				font-size: 20px;
+			}
+
+            nav ul {
+				overflow-x: auto;
+				white-space: nowrap;
+				justify-content: flex-start;
+			}
+
+			nav ul li a {
+				padding: 8px 12px;
+				font-size: 14px;
+			}
+            
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+			
+			.listings-grid {
+				grid-template-columns: repeat(2, 1fr);
+				gap: 1rem;
+			}
+			
+			.listing-image {
+				height: 150px;
+			}
+			
+			.listing-content {
+				padding: 15px 15px 3px 15px;
+			}
+			
+			.listing-actions {
+				padding-top: 3px;
+			}
+			
+			.desktop-actions {
+				display: none;
+			}
+			.mobile-actions {
+				display: block;
+			}
+
+			.category-card {
+				width: 200px;
+			}
+			
+			.hero h1 {
+				font-size: 28px;
+			}
+
+			.hero p {
+				font-size: 16px;
+			}
+        }
+		
+		@media (min-width: 769px) {
+			.mobile-search-icon {
+				display: none;
+			}
+		}
+		
+		.toast {
+			position: fixed;
+			bottom: 20px;
+			right: 20px;
+			padding: 12px 24px;
+			border-radius: 8px;
+			color: white;
+			font-size: 14px;
+			font-weight: 500;
+			z-index: 10000; /* Ensure it appears above other elements */
+			animation: slideIn 0.3s ease-out, fadeOut 0.3s ease-out 2.7s;
+		}
+
+		.toast.success {
+			background-color: #2ecc71; /* Green for success messages */
+		}
+
+		.toast.error {
+			background-color: #e74c3c; /* Red for error messages */
+		}
+
+		@keyframes slideIn {
+			from {
+				transform: translateX(100%);
+				opacity: 0;
+			}
+			to {
+				transform: translateX(0);
+				opacity: 1;
+			}
+		}
+
+		@keyframes fadeOut {
+			from {
+				opacity: 1;
+			}
+			to {
+				opacity: 0;
+			}
+		}
+		
+		/* Full Image View */
+		.full-image-view {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.9);
+			z-index: 1000;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.full-image-view img {
+			max-width: 90%;
+			max-height: 90%;
+			border-radius: 8px;
+		}
+
+		.close-icon {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			font-size: 40px;
+			color: white;
+			cursor: pointer;
+			transition: color 0.3s ease;
+		}
+
+		.close-icon:hover {
+			color: #e74c3c;
+		}
+		
+		.image-preview {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+			margin-top: 10px;
+		}
+
+		.image-preview-item {
+			position: relative;
+			width: 80px;
+			height: 80px;
+			border-radius: 8px;
+			overflow: hidden;
+		}
+
+		.image-preview-item img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		.image-preview-item .remove {
+			position: absolute;
+			top: 0;
+			right: 0;
+			background-color: rgba(255, 0, 0, 0.7);
+			color: white;
+			width: 20px;
+			height: 20px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			border-radius: 0 0 0 4px;
+		}
+
+		.image-preview-item .remove:hover {
+			background-color: rgba(255, 0, 0, 0.9);
+		}
+
+		.detail-actions {
+			display: flex;
+			gap: 10px; 
+			margin-bottom: 10px;
+		}
+
+		.detail-actions button {
+			flex: 1;
+		}
+
+		#contact-seller-btn {
+			width: 100%;
+			margin-top: 5px;
+			background-color: #3498db;
+			color: white;
+			border: none;
+			font-size: 16px;
+			border-radius: 8px;
+		}
+		
+		#contact-seller-btn:hover {
+			background-color: #2980b9;
+		}
+		
+		/* Location Modal Styles */
+		.location-dialog {
+			position: relative;
+			align-items: center;
+			display: flex;
+			margin-left: auto;
+			margin-right: 7px;
+		}
+		
+		/* Location Tabs */
+		.location-section {
+			display: none;
+			padding: 10px 0;
+			transition: opacity 0.3s ease;
+		}
+		
+		.location-section.active {
+			display: block;
+		}
+		
+		.location-tabs {
+			display: flex;
+			border-bottom: 0px solid #3498db;
+			margin-bottom: 15px;
+		}
+
+		.location-tabs .tab {
+			flex: 1;
+			padding: 10px 15px;
+			text-align: center;
+			cursor: pointer;
+			font-size: small;
+			font-weight: 500;
+			color: #7f8c8d;
+			transition: all 0.3s ease;
+			border-bottom: 2px solid transparent;
+		}
+
+		.location-tabs .tab.active {
+			color: #3498db;
+			border-bottom-color: #3498db;
+			border-bottom-width: 3px;
+			border-radius: 5px;
+		}
+
+		.location-tabs .tab:hover {
+			color: #3498db;
+			border-radius: 5px;
+		}
+
+		/* Location List */
+		.location-list {
+			display: flex;
+			scrollbar-width: none;
+			flex-direction: column;
+			gap: 10px;
+			max-height: 200px;
+			overflow-y: auto;
+			padding: 10px 0;
+		}
+
+		.location-list div {
+			padding: 10px;
+			border: 1px solid #ddd;
+			font-size: small;
+			border-radius: 8px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			background-color: white;
+		}
+
+		.location-list div:hover {
+			background-color: #f5f5f5;
+			transform: translateY(-2px);
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+		}
+
+		/* Location Icon Styling */
+		.location-icon {
+			font-size: 19px;
+			width: 40px;
+			border-radius: 12px;
+			padding: 8px 12px;
+			height: 40px;
+			order: 2;
+			color: #3498db;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: background-color 0.3s ease;
+			white-space: nowrap;
+			background-color: transparent;
+		}
+
+		.location-icon:hover {
+			background-color: rgba(52, 152, 219, 0.1);
+		}
+		
+		#location-text {
+			margin-left: 10px;
+			margin-right: 7px; 
+			font-size: 14px;
+			font-weight: 500;
+			color: #2c3e50;
+			white-space: nowrap;
+		}
+		
+		.contact-buttons {
+			display: flex;
+			gap: 15px;
+			justify-content: center;
+			margin-bottom: 20px;
+		}
+
+		.contact-buttons button {
+			flex: 1;
+			padding: 12px 20px;
+			border-radius: 8px;
+			font-size: 16px;
+			font-weight: 500;
+			transition: all 0.3s ease; 
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 8px;
+		}
+
+		.contact-buttons button i {
+			font-size: 18px;
+		}
+
+		/* WhatsApp Button */
+		#whatsapp-btn {
+			background-color: #25d366; 
+			color: white;
+			border: none;
+		}
+
+		#whatsapp-btn:hover {
+			background-color: #128c7e;
+		}
+
+		/* Call Button */
+		#call-btn {
+			background-color: #3498db;
+			color: white;
+			border: none;
+		}
+
+		#call-btn:hover {
+			background-color: #2980b9; 
+		}
+		
+		.checkbox-button {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			color: white;
+			border-radius: 8px;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+
+		.checkbox-button:hover {
+			background-color: aliceblue; /* Darker shade on hover */
+		}
+
+		.checkbox-button input {
+			display: none; /* Hide the default checkbox */
+		}
+
+		.checkmark {
+			display: inline-block;
+			width: 18px;
+			height: 18px;
+			border: 2px solid #3498db;
+			border-radius: 50%;
+			position: relative;
+			transition: background-color 0.3s ease, border-color 0.3s ease;
+		}
+
+		.checkbox-button input:checked ~ .checkmark {
+			background-color: #3498db;
+		}
+
+		.checkmark::after {
+			content: '';
+			position: absolute;
+			display: none;
+			left: 5px;
+			top: 0px;
+			width: 5px;
+			height: 10px;
+			border: solid #3498db; /* Tick color */
+			border-width: 0 2px 2px 0;
+			transform: rotate(45deg);
+		}
+
+		.checkbox-button input:checked ~ .checkmark::after {
+			display: block;
+		}
+
+		.enable-text {
+			font-size: 14px;
+			color: #3498db;
+			font-weight: 500;
+			margin-bottom: 0px;
+		}
+		
+		.checkbox-button:hover {
+			background-color: aliceblue; 
+		}
+
+		.checkbox-button:active {
+			background-color: aliceblue;
+		}
+		
+		.input-prefix {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 10px;
+			background-color: #f5f5f5;
+			border: 1px solid #ddd;
+			border-right: none;
+			border-radius: 8px 0 0 8px;
+			font-size: 14px;
+			color: #333;
+			height: 40px;
+		}
+
+		input[type="tel"] {
+			border-radius: 0 8px 8px 0;
+			flex-grow: 1;
+			height: 40px;
+		}
+		
+		.otp-container {
+			display: flex;
+			justify-content: center;
+			gap: 10px;
+			margin-bottom: 20px;
+		}
+
+		.otp-input {
+			width: 50px;
+			height: 50px;
+			text-align: center;
+			font-size: 24px;
+			border: 2px solid #3498db;
+			border-radius: 8px;
+			outline: none;
+			transition: all 0.3s ease;
+		}
+		
+		#otp-modal {
+			z-index: 1001; /* Higher than the "Forgot Password" modal */
+		}
+
+		.otp-input:focus {
+			border-color: #2980b9;
+			box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+		}
+
+		.otp-input.error {
+			border-color: #e74c3c;
+			animation: shake 0.5s;
+		}
+
+		@keyframes shake {
+			0%, 100% { transform: translateX(0); }
+			25% { transform: translateX(-5px); }
+			50% { transform: translateX(5px); }
+			75% { transform: translateX(-5px); }
+		}
+		
+		#resend-text,
+		#resend-timer {
+			display: inline;
+		}
+		
+		#forgot-password-modal .modal-body p {
+			text-align: center;
+			margin-bottom: 20px;
+			color: #555;
+			font-size: medium;
+		}
+		
+		.otp-icon-container {
+			text-align: center;
+			margin-bottom: 20px;
+		}
+
+		.otp-icon {
+			font-size: 64px;
+			color: #3498db;
+			animation: float 3s ease-in-out infinite;
+		}
+
+		@keyframes float {
+			0%, 100% {
+				transform: translateY(0);
+			}
+			50% {
+				transform: translateY(-10px);
+			}
+		}
+
+		.otp-icon {
+			filter: drop-shadow(0 4px 8px rgba(52, 152, 219, 0.3));
+		}
+		
+		.view-owner-profile-link {
+			color: #2c3e50;
+			background-color: aliceblue;
+			padding: 2px 5px;
+			border-radius: 8px;
+		}
+		
+		#view-owner-profile-link {
+			color: aliceblue;
+			font-weight: 500;
+			background-color: rgba(255, 255, 255, 0.1);
+			padding: 2px 5px;
+			border-radius: 8px;
+		}
+
+		.btn-info {
+			color: #2c3e50; 
+			padding: 10px;
+		}
+		
+		.listing-like .liked-icon {
+			color: #3498db;
+		}
+
+		.listing-favorite .favorited-icon {
+			color: #e74c3c;
+		}
+		
+		.favorited-icon, .liked-icon {
+			color: #2c3e50; 
+		}
+
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+		<div class="container header-container">
+			<div class="logo">
+				<i class="fas fa-store"></i> Keid
+			</div>
+			<!-- Search Container -->
+			<div class="search-container" id="search-container">
+				<input type="text" id="search-input" placeholder="What are you looking for?">
+					<select id="category-select">
+						<option value="">All Categories</option>
+						${Object.keys(categories).map(categoryId => `
+							<option value="${categoryId}">${categories[categoryId].name}</option>
+						`).join('')}
+					</select>
+				<button class="btn-primary" id="search-button"><i class="fas fa-search"></i></button>
+			</div>
+			
+			<!-- Location Dropdown -->
+			<div class="location-dialog">
+				<div class="location-icon" id="location-icon">
+					<i class="fas fa-map-marker-alt"></i>
+				</div>
+				<span id="location-text" style="display: none;"></span> 
+			</div>
+			<!-- Mobile Search Icon -->
+			<button class="mobile-search-icon" id="mobile-search-icon">
+				<i class="fas fa-search"></i>
+			</button>
+			<!-- User Actions -->
+			<div class="user-actions" id="user-actions">
+				<!-- Desktop View: Show Login/Signup Buttons -->
+				<div class="desktop-actions">
+					<button class="btn-primary" id="login-button">Login</button>
+					<button class="btn-success" id="signup-button">Sign Up</button>
+				</div>
+				<!-- Mobile View: Show Guest User Icon with Dropdown -->
+				<div class="mobile-actions dropdown">
+					<div class="guest-user-icon" id="guest-user-icon">
+						<i class="fas fa-user-circle" id="f-size"></i>
+					</div>
+					<div class="dropdown-content" id="guest-dropdown">
+						<a href="#" id="mobile-login-link">
+							<i class="fas fa-sign-in-alt"></i> Login
+						</a>
+						<a href="#" id="mobile-signup-link">
+							<i class="fas fa-user-plus"></i> Sign Up
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- User Profile -->
+			<div class="user-profile dropdown" id="user-profile" style="display: none;">
+				<img src="https://picsum.photos/400/400?random=11" alt="Profile Picture" id="nav-profile-img">
+				<div class="dropdown-content">
+					<a href="#" id="nav-profile-link"><i class="fas fa-user"></i> My Profile</a>
+					<a href="#" id="nav-dashboard-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+					<a href="#" id="nav-favorites-link"><i class="fas fa-heart"></i> Favorites</a>
+					<a href="#" id="nav-settings-link"><i class="fas fa-cog"></i> Settings</a>
+					<a href="#" id="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+				</div>
+			</div>
+		</div>
+	</header>
+    
+    <!-- Navigation -->
+    <nav>
+		<div class="container">
+			<ul>
+				<li><a href="#" id="home-link"><i class="fas fa-home"></i> Home</a></li>
+				<li><a href="#" id="products-link"><i class="fas fa-box"></i> Products</a></li>
+				<li><a href="#" id="services-link"><i class="fas fa-tools"></i> Services</a></li>
+				<li><a href="#" id="about-link"><i class="fas fa-info-circle"></i> About Us</a></li>
+				<li><a href="#" id="contact-link"><i class="fas fa-envelope"></i> Contact</a></li>
+			</ul>
+		</div>
+	</nav>
+    
+    <!-- Main Content -->
+    <main>
+        <div class="container" id="main-content">
+            <!-- Content will be dynamically loaded here -->
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+		<div class="container">
+			<div class="footer-container">
+				<div class="footer-section">
+					<h3>Keid</h3>
+					<p>Find local products and services in your area. Connect with businesses and service providers near you.</p>
+				</div>
+				<div class="footer-section">
+					<h3>Quick Links</h3>
+					<ul class="footer-links">
+						<li><a href="#" onclick="renderView('home')">Home</a></li>
+						<li><a href="#" onclick="renderView('products')">Products</a></li>
+						<li><a href="#" onclick="renderView('services')">Services</a></li>
+						<li><a href="#" onclick="renderView('about')">About Us</a></li>
+						<li><a href="#" onclick="renderView('contact')">Contact</a></li>
+					</ul>
+				</div>
+				<div class="footer-section">
+					<h3>Contact Us</h3>
+					<ul class="footer-links">
+						<li><i class="fas fa-map-marker-alt"></i> 123 Main St, Bulawayo, Zimbabwe</li>
+						<li><i class="fas fa-phone"></i> +263 23 4567 890</li>
+						<li><i class="fas fa-envelope"></i> info@keid.co.zw</li>
+					</ul>
+				</div>
+				<div class="footer-section">
+					<h3>Follow Us</h3>
+					<div class="social-links">
+						<a href="https://facebook.com/"><i class="fab fa-facebook-f"></i></a>
+						<a href="https://x.com"><i class="fab fa-twitter"></i></a>
+						<a href="https://instagram.com"><i class="fab fa-instagram"></i></a>
+						<a href="https://linkedin.com"><i class="fab fa-linkedin-in"></i></a>
+					</div>
+				</div>
+			</div>
+			<div class="footer-bottom">
+				<p>&copy; 2025 Keid. All rights reserved.</p>
+			</div>
+		</div>
+	</footer>
+    
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 class="modal-title">Login</h2>
+				<button class="modal-close">&times;</button>
+			</div>
+			<div class="modal-body">
+				<form id="login-form">
+					<div class="form-group">
+						<label for="login-email">Email</label>
+						<input type="email" id="login-email" required>
+					</div>
+					<div class="form-group">
+						<label for="login-password">Password</label>
+						<input type="password" id="login-password" required>
+					</div>
+					<div style="text-align: right; margin-bottom: 15px;">
+						<a href="#" id="forgot-password-link">Forgot password?</a>
+					</div>
+					<button type="submit" class="btn-primary" style="width: 100%;">Login</button>
+				</form>
+				<div style="text-align: center; margin-top: 20px;">
+					<p>Don't have an account? <a href="#" id="switch-to-signup">Sign up</a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+    
+    <!-- Signup Modal -->
+    <div class="modal" id="signup-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Create an Account</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="signup-form">
+                    <div class="form-group">
+                        <label for="signup-name">Full Name</label>
+                        <input type="text" maxlength="50" id="signup-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" maxlength="50" id="signup-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-confirm-password">Confirm Password</label>
+                        <input type="password" id="signup-confirm-password" required>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%;">Sign Up</button>
+                </form>
+                <div style="text-align: center; margin-top: 20px;">
+                    <p>Already have an account? <a href="#" id="switch-to-login">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Listing Modal -->
+	<div class="modal" id="add-listing-modal">
+		<div class="modal-content" style="max-width: 600px;">
+			<div class="modal-header">
+				<h2 class="modal-title">Add New Listing</h2>
+				<button class="modal-close">&times;</button>
+			</div>
+			<div class="modal-body">
+				<form id="add-listing-form">
+					<div class="form-group">
+						<label for="listing-type">Listing Type</label>
+						<select id="listing-type" required>
+							<option value="">Select Type</option>
+							<option value="product">Product</option>
+							<option value="service">Service</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="listing-title">Title</label>
+						<input type="text" maxlength="50" id="listing-title" maxlength="50" required>
+					</div>
+					<div class="form-group">
+						<label for="listing-price">Price ($)</label>
+						<input type="number" id="listing-price" min="0" step="0.01" required>
+					</div>
+					<div class="form-group">
+						<label for="listing-location">Location</label>
+						<div style="display: flex; gap: 10px;">
+							<input type="text" id="listing-location-name" readonly>
+							<input type="hidden" id="listing-location-id">
+							<button type="button" class="btn-primary" id="add-listing-location-btn">
+								<i class="fas fa-map-marker-alt"></i> Select
+							</button>
+						</div>
+					</div>
+					<!-- Add Category Dropdown -->
+					<div class="form-group">
+						<label for="listing-category">Category</label>
+						<select id="listing-category" required>
+							<option value="">Select Category</option>
+							${Object.keys(categories).map(categoryId => `
+								<option value="${categoryId}">${categories[categoryId].name}</option>
+							`).join('')}
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="listing-description">Description</label>
+						<textarea id="listing-description" rows="5" required></textarea>
+					</div>
+					<div class="form-group">
+						<label>Images (Max 5)</label>
+						<div class="image-upload" id="image-upload">
+							<i class="fas fa-cloud-upload-alt"></i>
+							<p>Click to upload images</p>
+							<input type="file" id="image-input" accept="image/*" multiple style="display: none;">
+						</div>
+						<div class="image-preview" id="image-preview"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn-danger modal-close-btn">Cancel</button>
+						<button type="submit" class="btn-primary">Add Listing</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+    <!-- Contact Modal -->
+    <div class="modal" id="contact-modal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 class="modal-title">Contact <span id="contact-name"></span></h2>
+				<button class="modal-close">&times;</button>
+			</div>
+			<div class="modal-body">
+				<div class="contact-buttons">
+					<button class="btn-success" id="whatsapp-btn">
+						<i class="fab fa-whatsapp"></i> WhatsApp
+					</button>
+					<button class="btn-primary" id="call-btn">
+						<i class="fas fa-phone"></i> Call
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Edit Profile Modal -->
+	<div class="modal" id="edit-profile-modal">
+		<div class="modal-content" style="max-width: 600px;">
+			<div class="modal-header">
+				<h2 class="modal-title">Edit Profile</h2>
+				<button class="modal-close">&times;</button>
+			</div>
+			<div class="modal-body">
+				<form id="edit-profile-form">
+					<div class="form-group">
+						<label for="edit-profile-pic">Profile Picture</label>
+						<div class="image-upload" id="edit-profile-pic-upload">
+							<i class="fas fa-cloud-upload-alt"></i>
+							<p>Click to upload a new profile picture</p>
+							<input type="file" id="edit-profile-pic-input" accept="image/*" style="display: none;">
+						</div>
+						<div class="image-preview" id="edit-profile-pic-preview"></div>
+					</div>
+					<div class="form-group">
+						<label for="edit-profile-display-name">Profile Name</label>
+						<input type="text" maxlength="50" id="edit-profile-display-name" required>
+					</div>
+					<div class="form-group">
+						<label for="edit-profile-location">Location</label>
+						<div style="display: flex; gap: 10px;">
+							<input type="text" id="edit-profile-location-name" readonly>
+							<input type="hidden" id="edit-profile-location-id">
+							<button type="button" class="btn-primary" id="edit-profile-location-btn">
+								<i class="fas fa-map-marker-alt"></i> Select
+							</button>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="edit-profile-phone">Phone Number</label>
+						<div style="display: flex; align-items: center; gap: 0px;">
+							<div class="input-prefix">+263</div>
+							<input type="tel" id="edit-profile-phone" maxlength="9" placeholder="e.g. 771234567">
+							<label class="checkbox-button" style="display: inline flex; margin-bottom: 0px; margin-left: 10px;">
+								<input type="checkbox" id="enable-phone" checked>
+								<span class="checkmark"></span>
+								<span class="enable-text">Enable</span>
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="edit-profile-whatsapp">WhatsApp Number</label>
+						<div style="display: flex; align-items: center; gap: 0px;">
+							<div class="input-prefix">+263</div>
+							<input type="tel" id="edit-profile-whatsapp" maxlength="9" placeholder="e.g. 771234567">
+							<label class="checkbox-button" style="display: inline flex; margin-bottom: 0px; margin-left: 10px;">
+								<input type="checkbox" id="enable-whatsapp" checked>
+								<span class="checkmark"></span>
+								<span class="enable-text">Enable</span>
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="edit-profile-bio">About</label>
+						<textarea id="edit-profile-bio" rows="5"></textarea>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn-danger modal-close-btn">Cancel</button>
+						<button type="submit" class="btn-primary">Save Changes</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Edit Listing Modal -->
+	<div class="modal" id="edit-listing-modal">
+		<div class="modal-content" style="max-width: 600px;">
+			<div class="modal-header">
+				<h2 class="modal-title">Edit Listing</h2>
+				<button class="modal-close">&times;</button>
+			</div>
+			<div class="modal-body">
+				<form id="edit-listing-form">
+					<div class="form-group">
+						<label for="edit-listing-type">Listing Type</label>
+						<select id="edit-listing-type" required>
+							<option value="">Select Type</option>
+							<option value="product">Product</option>
+							<option value="service">Service</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="edit-listing-title">Title</label>
+						<input type="text"maxlength="50" id="edit-listing-title" required>
+					</div>
+					<div class="form-group">
+						<label for="edit-listing-price">Price ($)</label>
+						<input type="number" id="edit-listing-price" min="0" step="0.01" required>
+					</div>
+					<div class="form-group">
+						<label for="edit-listing-location">Location</label>
+						<div style="display: flex; gap: 10px;">
+							<input type="text" id="edit-listing-location-name" readonly>
+							<input type="hidden" id="edit-listing-location-id"> 
+							<button type="button" class="btn-primary" id="edit-listing-location-btn">
+								<i class="fas fa-map-marker-alt"></i> Select
+							</button>
+						</div>
+					</div>
+					<!-- Add Category Dropdown -->
+					<div class="form-group">
+						<label for="edit-listing-category">Category</label>
+						<select id="edit-listing-category" required>
+							<option value="">Select Category</option>
+							${Object.keys(categories).map(categoryId => `
+								<option value="${categoryId}">${categories[categoryId].name}</option>
+							`).join('')}
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="edit-listing-description">Description</label>
+						<textarea id="edit-listing-description" rows="5" required></textarea>
+					</div>
+					<div class="form-group">
+						<label>Images (Max 5)</label>
+						<div class="image-upload" id="edit-image-upload">
+							<i class="fas fa-cloud-upload-alt"></i>
+							<p>Click to upload images</p>
+							<input type="file" id="edit-image-input" accept="image/*" multiple style="display: none;">
+						</div>
+						<div class="image-preview" id="edit-image-preview"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn-danger modal-close-btn">Cancel</button>
+						<button type="submit" class="btn-primary">Save Changes</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Location Selection Modal -->
+	<div class="modal" id="location-modal">
+		<div class="modal-content" style="max-width: 500px;">
+			<div class="modal-header">
+				<h2 class="modal-title">Select Location</h2>
+				<button class="modal-close">&times;</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<input type="text" id="location-search" placeholder="Search for a city or campus..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: medium;">
+				</div>
+
+				<div class="location-tabs">
+					<div class="tab active" id="city-tab" data-tab="city">City/Town</div>
+					<div class="tab" id="campus-tab" data-tab="campus">Campus Connect</div>
+				</div>
+
+				<div class="location-section active" id="city-list-section">
+					<div id="city-list" class="location-list"></div>
+				</div>
+
+				<div class="location-section" id="campus-list-section">
+					<div id="campus-list" class="location-list"></div>
+				</div>
+
+				<div id="default-to-all-button" style="padding: 10px; cursor: pointer; color: #3498db; text-align: center; margin-bottom: -25px;">
+					Default to All Cities/Towns
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- OTP Verification Modal -->
+	<div class="modal" id="otp-modal">
+		<div class="modal-content" style="max-width: 400px;">
+			<div class="modal-header">
+				<h2 class="modal-title">Verify Your Email</h2>
+				<button class="modal-close">&times;</button>
+			</div>
+			<div class="modal-body">
+				<!-- Envelope Icon Container -->
+				<div class="otp-icon-container">
+					<i class="fas fa-envelope otp-icon"></i>
+				</div>
+				<p style="text-align: center; margin-bottom: 20px;">
+					We've sent a verification code to <strong id="otp-email"></strong>
+				</p>
+				<div class="otp-container">
+					<input type="number" maxlength="1" class="otp-input" id="otp-1" data-next="otp-2">
+					<input type="number" maxlength="1" class="otp-input" id="otp-2" data-next="otp-3" data-previous="otp-1">
+					<input type="number" maxlength="1" class="otp-input" id="otp-3" data-next="otp-4" data-previous="otp-2">
+					<input type="number" maxlength="1" class="otp-input" id="otp-4" data-previous="otp-3">
+				</div>
+				<p id="otp-error" style="color: #e74c3c; text-align: center; margin-top: 10px; display: none;">
+					<i class="fas fa-exclamation-circle"></i> Invalid OTP. Please try again.
+				</p>
+				<div style="text-align: center; margin-top: 20px;">
+					<button class="btn-primary" id="resend-otp-btn" disabled>
+						<span id="resend-text">Resend OTP in </span>
+						<span id="resend-timer">Resend OTP</span>
+					</button>
+				</div>
+				<input type="hidden" id="otp-email-for-reset">
+			</div>
+		</div>
+	</div>
+	
+	<!-- Forgot Password Modal -->
+	<div class="modal" id="forgot-password-modal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 class="modal-title">Forgot Password</h2>
+				<button class="modal-close">&times;</button>
+			</div>
+			<div class="modal-body">
+				<p style="text-align: center; margin-bottom: 20px; color: #555;">
+					Enter your email address below, and we'll send you a verification code to reset your password.
+				</p>
+				<form id="forgot-password-form">
+					<div class="form-group">
+						<label for="forgot-password-email">Email</label>
+						<input type="email" id="forgot-password-email" required>
+					</div>
+					<button type="submit" class="btn-primary" style="width: 100%;">Send OTP</button>
+				</form>
+				<div style="text-align: center; margin-top: 20px;">
+					<p style="color: #555;">Remember your password? <a href="#" id="back-to-login">Login here</a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+    <script>
+        // Fake database for our application
+        const fakeDb = {
+            users: [
+                {
+					id: 1,
+					name: 'Test Account',
+					displayName: 'Test Account', 
+					email: 'test@gmail.com',
+					password: '12345678',
+					profilePic: 'https://picsum.photos/400/400?random=11',
+					phone: '+263771234567',
+					whatsapp: '+263551234567',
+					bio: 'Professional test account with 10 years of experience. Specializing in bugs and more bugs.',
+					joinedDate: '2024-01-15',
+					location: 'plumtree',
+					likes: 45
+				},
+				{
+					id: 2,
+					name: 'Scammer Knox',
+					displayName: 'Scammer Knox',
+					email: 'scam@knox.com',
+					password: 'password',
+					profilePic: 'https://picsum.photos/400/400?random=11',
+					phone: '+263557654321',
+					whatsapp: '+263777654321',
+					bio: 'Professional scammer with 10 years of experience. Specializing in OnlyScams',
+					joinedDate: '2024-02-10',
+					location: 'bulawayo',
+					likes: 78
+				}
+            ],
+            products: [
+				{
+					id: 10,
+					type: 'product',
+					title: 'Professional DSLR Camera',
+					price: 1200,
+					description: 'Near-new condition professional DSLR camera with 24.2MP sensor, 4K video recording, and touchscreen. Includes 2 lenses, camera bag, and extra battery.',
+					location: 'bulawayo',
+					images: [
+						'https://picsum.photos/800/600?random=12',
+						'https://picsum.photos/800/600?random=13',
+						'https://picsum.photos/800/600?random=14',
+						'https://picsum.photos/800/600?random=15'
+					],
+					userId: 1,
+					likes: 12,
+					createdAt: '2025-01-10',
+					category: 'electronics'
+				},
+				{
+					id: 11,
+					type: 'product',
+					title: 'Refurbished Laptop',
+					price: 599,
+					description: 'Refurbished 14" laptop with Intel i5 processor, 16GB RAM, 512GB SSD, and backlit keyboard. Perfect condition with fresh install of Windows 11.',
+					location: 'bulawayo',
+					images: [
+						'https://picsum.photos/800/600?random=13',
+						'https://picsum.photos/800/600?random=14'
+					],
+					userId: 2,
+					likes: 5,
+					createdAt: '2025-01-20',
+					category: 'electronics'
+				}
+			],
+			services: [
+				{
+					id: 20,
+					type: 'service',
+					title: 'Professional Photography',
+					price: 120,
+					description: 'Professional portrait and event photography services. Includes full editing and delivery of high-resolution digital files. Available for bookings throughout the city.',
+					location: 'plumtree',
+					images: [
+						'https://picsum.photos/800/600?random=16',
+						'https://picsum.photos/800/600?random=14',
+						'https://picsum.photos/800/600?random=17'
+					],
+					userId: 1,
+					likes: 31,
+					createdAt: '2025-01-12',
+					category: 'photography'
+				},
+				{
+					id: 21,
+					type: 'service',
+					title: 'Computer Repair & Setup',
+					price: 75,
+					description: 'On-site computer repair, setup, and troubleshooting services for PC and Mac. Virus removal, hardware upgrades, OS installation, and more.',
+					location: 'nust',
+					images: [
+						'https://picsum.photos/800/600?random=18',
+						'https://picsum.photos/800/600?random=19'
+					],
+					userId: 2,
+					likes: 19,
+					createdAt: '2025-01-23',
+					category: 'electronics'
+				},
+				{
+					id: 22,
+					type: 'service',
+					title: 'Nkust House for Rent',
+					price: 75,
+					description: '20 Roomed House with windows and doors, Security not guaranteed but you will be safe, Neighbourhood WiFi is guaranteed.',
+					location: 'bulawayo',
+					images: [
+						'https://picsum.photos/800/600?random=20',
+						'https://picsum.photos/800/600?random=14',
+						'https://picsum.photos/800/600?random=10'
+					],
+					userId: 2,
+					likes: 29,
+					createdAt: '2025-01-23',
+					category: 'real-estate'
+				}
+			],
+            favorites: [],
+            userLikes: []
+        };
+		
+		const locations = {
+			cities: [
+				{ id: 'bulawayo', name: 'Bulawayo' },
+				{ id: 'plumtree', name: 'Plumtree' },
+				{ id: 'harare', name: 'Harare' },
+				{ id: 'gweru', name: 'Gweru' },
+				{ id: 'vic-falls', name: 'Victoria Falls' }
+			],
+			campuses: [
+				{ id: 'nust', name: 'NUST (Bulawayo)' },
+				{ id: 'uz', name: 'UZ (Harare)' },
+				{ id: 'msu', name: 'MSU (Gweru)' },
+				{ id: 'lupane', name: 'LSU (Lupane)' },
+				{ id: 'cut', name: 'CUT (Chinhoyi)' }
+			]
+		};
+		
+		const categories = {
+			electronics: {
+				name: 'Electronics',
+				description: 'Computers, phones, accessories, and more.',
+				image: 'https://picsum.photos/400/300?random=2',
+			},
+			'real-estate': {
+				name: 'Real Estate',
+				description: 'Houses, apartments, and properties for rent or sale.',
+				image: 'https://picsum.photos/400/300?random=3',
+			},
+			photography: {
+				name: 'Photography',
+				description: 'Professional photography services.',
+				image: 'https://picsum.photos/400/300?random=4',
+			},
+			vehicles: {
+				name: 'Vehicles',
+				description: 'Cars, bikes, parts, and accessories.',
+				image: 'https://picsum.photos/400/300?random=5',
+			},
+		};
+
+        // Session state
+        let currentUser = null;
+        let currentView = 'home';
+		let uploadedImages = [];
+		let currentSortBy = 'recommended'; // Default sorting option
+		let filterLocation = localStorage.getItem('selectedLocation') || 'all';
+		let currentCategory = ''; 
+		const API_BASE_URL = 'https://keid-co-zw.onrender.com/api';
+		
+		let otpTimer;
+		let resendTimer;
+		const OTP_CODE = '0000'; // Default OTP code for now
+        
+        // DOM Elements
+        const mainContent = document.getElementById('main-content');
+        const userActions = document.getElementById('user-actions');
+        const userProfile = document.getElementById('user-profile');
+        const navProfileImg = document.getElementById('nav-profile-img');
+        const loginButton = document.getElementById('login-button');
+        const signupButton = document.getElementById('signup-button');
+        const homeLink = document.getElementById('home-link');
+        const productsLink = document.getElementById('products-link');
+        const servicesLink = document.getElementById('services-link');
+        const aboutLink = document.getElementById('about-link');
+        const contactLink = document.getElementById('contact-link');
+        const navProfileLink = document.getElementById('nav-profile-link');
+        const navDashboardLink = document.getElementById('nav-dashboard-link');
+        const navFavoritesLink = document.getElementById('nav-favorites-link');
+        const navSettingsLink = document.getElementById('nav-settings-link');
+        const logoutLink = document.getElementById('logout-link');
+        
+        // Modal Elements
+        const loginModal = document.getElementById('login-modal');
+        const signupModal = document.getElementById('signup-modal');
+        const addListingModal = document.getElementById('add-listing-modal');
+        const contactModal = document.getElementById('contact-modal');
+        const closeButtons = document.querySelectorAll('.modal-close, .modal-close-btn');
+        const switchToSignup = document.getElementById('switch-to-signup');
+        const switchToLogin = document.getElementById('switch-to-login');
+		const forgotPasswordModal = document.getElementById('forgot-password-modal');
+        
+        // Forms
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const addListingForm = document.getElementById('add-listing-form');
+        
+        // Search Elements
+        const searchInput = document.getElementById('search-input');
+        const locationSelect = document.getElementById('location-select');
+        const searchButton = document.getElementById('search-button');
+		
+		document.getElementById('location-icon').addEventListener('click', () => {
+			openLocationModal('filter');
+		});
+		document.getElementById('add-listing-location-btn').addEventListener('click', () => {
+			openLocationModal('add-listing');
+		});
+		document.getElementById('edit-listing-location-btn').addEventListener('click', () => {
+			openLocationModal('edit-listing');
+		});
+		document.getElementById('edit-profile-location-btn').addEventListener('click', () => {
+			openLocationModal('edit-profile');
+		});
+		
+		// Event listeners for mobile login/signup dropdown
+		document.getElementById('guest-user-icon').addEventListener('click', () => {
+			const dropdown = document.getElementById('guest-dropdown');
+			dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+		});
+
+		document.getElementById('mobile-login-link').addEventListener('click', () => {
+			openModal(loginModal);
+			document.getElementById('guest-dropdown').style.display = 'none'; // Close dropdown
+		});
+
+		document.getElementById('mobile-signup-link').addEventListener('click', () => {
+			openModal(signupModal);
+			document.getElementById('guest-dropdown').style.display = 'none'; // Close dropdown
+		});
+
+		// Close dropdown when clicking outside
+		window.addEventListener('click', (e) => {
+			if (!e.target.closest('.mobile-actions')) {
+				document.getElementById('guest-dropdown').style.display = 'none';
+			}
+		});
+		
+		document.getElementById('mobile-search-icon').addEventListener('click', () => {
+			const searchContainer = document.getElementById('search-container');
+			searchContainer.classList.toggle('active');
+		});
+
+		// Event listener for outside clicks on the search container
+		document.addEventListener('click', (e) => {
+			const searchContainer = document.getElementById('search-container');
+			const mobileSearchIcon = document.getElementById('mobile-search-icon');
+
+			// Check if the click is outside the search container and mobile search icon
+			if (!searchContainer.contains(e.target) && !mobileSearchIcon.contains(e.target)) {
+				searchContainer.classList.remove('active'); // Close the search container
+			}
+		});
+		
+		// Open the location modal
+		document.getElementById('location-icon').addEventListener('click', () => {
+			openModal(document.getElementById('location-modal'));
+			renderLocationLists(''); // Render all locations initially
+		});
+		
+		document.getElementById('location-search').addEventListener('input', (e) => {
+			const searchQuery = e.target.value;
+			renderLocationLists(searchQuery); // Re-render the lists based on the search query
+		});
+		
+		//When Loaded
+		document.addEventListener('DOMContentLoaded', () => {
+			populateCategoryDropdown('listing-category');
+			populateCategoryDropdown('edit-listing-category');
+			populateCategoryDropdown('category-select');
+			
+			const links = document.querySelectorAll('nav a');
+			links.forEach(link => {
+				link.addEventListener('click', (e) => {
+					e.preventDefault(); // Prevent default link behavior
+					const url = link.getAttribute('href');
+					loadContent(url, 'main-content'); // Load content into the main section
+					history.pushState({}, '', url); // Update the URL
+				});
+			});
+
+			// Handle back/forward navigation
+			window.addEventListener('popstate', () => {
+				const url = window.location.pathname;
+				loadContent(url, 'main-content');
+			});
+		});
+
+		// Close the location modal
+		document.querySelector('#location-modal .modal-close').addEventListener('click', () => {
+			closeModal(document.getElementById('location-modal'));
+		});
+		
+		document.getElementById('default-to-all-button').addEventListener('click', () => {
+			const locationModal = document.getElementById('location-modal');
+			const purpose = locationModal.getAttribute('data-purpose');
+
+			// Only allow "Default to All" for filtering
+			if (purpose === 'filter') {
+				localStorage.setItem('selectedLocation', 'all'); // Set location to 'all'
+				filterListingsByLocation('all'); // Filter listings to show all cities
+				closeModal(locationModal);
+				showMessage('Location set to: All Cities', 'success');
+				updateLocationIcon('All'); // Update the location icon text
+			}
+		});
+		
+		document.getElementById('city-tab').addEventListener('click', () => {
+			document.getElementById('city-list-section').classList.add('active');
+			document.getElementById('campus-list-section').classList.remove('active');
+			document.getElementById('city-tab').classList.add('active');
+			document.getElementById('campus-tab').classList.remove('active');
+		});
+
+		document.getElementById('campus-tab').addEventListener('click', () => {
+			document.getElementById('campus-list-section').classList.add('active');
+			document.getElementById('city-list-section').classList.remove('active');
+			document.getElementById('campus-tab').classList.add('active');
+			document.getElementById('city-tab').classList.remove('active');
+		});
+
+		
+		// Event listeners for tabs
+		document.querySelectorAll('.location-tabs .tab').forEach(tab => {
+			tab.addEventListener('click', () => {
+				// Remove active class from all tabs
+				document.querySelectorAll('.location-tabs .tab').forEach(t => t.classList.remove('active'));
+				// Add active class to the clicked tab
+				tab.classList.add('active');
+
+				// Hide all location sections
+				document.querySelectorAll('.location-section').forEach(section => section.classList.remove('active'));
+				// Show the corresponding location section
+				const tabType = tab.getAttribute('data-tab');
+				document.getElementById(`${tabType}-list-section`).classList.add('active');
+			});
+		});
+
+		// Add event listeners for OTP inputs
+		document.querySelectorAll('.otp-input').forEach(input => {
+			input.addEventListener('input', handleOTPInput);
+			input.addEventListener('keydown', handleOTPInput);
+		});
+
+		// Resend OTP button
+		document.getElementById('resend-otp-btn').addEventListener('click', () => {
+			// Reset the timer and OTP inputs
+			clearInterval(resendTimer);
+			startResendTimer();
+			resetOTPInputs();
+			document.getElementById('otp-error').style.display = 'none';
+
+			// Simulate resending OTP
+			showMessage('OTP resent successfully!', 'success');
+		});
+
+		// Close OTP modal when the close button is clicked
+		document.querySelector('#otp-modal .modal-close').addEventListener('click', () => {
+			clearInterval(resendTimer);
+			closeModal(document.getElementById('otp-modal'));
+			closeModal(forgotPasswordModal); // Close the "Forgot Password" modal as well		
+		});
+		
+		// Event listener for the "Forgot Password" link
+		document.getElementById('forgot-password-link').addEventListener('click', (e) => {
+			e.preventDefault();
+			closeModal(loginModal);
+			openModal(forgotPasswordModal);
+		});
+
+		// Event listener for the "Forgot Password" form submission
+		document.getElementById('forgot-password-form').addEventListener('submit', (e) => {
+			e.preventDefault();
+			const email = document.getElementById('forgot-password-email').value;
+
+			// Check if the email exists in the database
+			const user = fakeDb.users.find(u => u.email === email);
+			if (!user) {
+				showMessage('Email not found', 'error');
+				return;
+			}
+
+			// Store the email in the OTP modal for later use
+			document.getElementById('otp-email-for-reset').value = email;
+
+			// Open the OTP modal
+			closeModal(forgotPasswordModal);
+			openOTPModal(email, null); // Pass null for signupData since this is a password reset
+		});
+		
+		// Event listener for the "Back to Login" link
+		document.getElementById('back-to-login').addEventListener('click', (e) => {
+			e.preventDefault();
+			closeModal(forgotPasswordModal);
+			openModal(loginModal);
+		});
+		
+		// Event listener for image upload
+		document.getElementById('image-upload').addEventListener('click', () => {
+			document.getElementById('image-input').click();
+		});
+
+		// Handle file selection
+		document.getElementById('image-input').addEventListener('change', (e) => {
+			const files = e.target.files;
+			if (files.length > 5) {
+				showMessage('You can upload a maximum of 5 images', 'error');
+				return;
+			}
+
+			const imagePreview = document.getElementById('image-preview');
+			imagePreview.innerHTML = ''; // Clear previous previews
+
+			for (let i = 0; i < files.length; i++) {
+				const file = files[i];
+				if (file.type.startsWith('image/')) {
+					const reader = new FileReader();
+					reader.onload = (e) => {
+						uploadedImages.push(e.target.result); // Store image data
+						renderImagePreviews(); // Re-render previews after each image is loaded
+					};
+					reader.readAsDataURL(file);
+				}
+			}
+
+			// Add event listeners for remove buttons
+			document.querySelectorAll('.image-preview-item .remove').forEach(button => {
+				button.addEventListener('click', (e) => {
+					e.stopPropagation();
+					const index = button.getAttribute('data-index');
+					uploadedImages.splice(index, 1); // Remove image from array
+					renderImagePreviews(); // Re-render previews
+				});
+			});
+		});
+		
+		// Enable/disable phone input based on checkbox
+		document.getElementById('enable-phone').addEventListener('change', (e) => {
+			const phoneInput = document.getElementById('edit-profile-phone');
+			phoneInput.disabled = !e.target.checked;
+			if (!e.target.checked) phoneInput.value = ''; // Clear input if disabled
+		});
+
+		// Enable/disable WhatsApp input based on checkbox
+		document.getElementById('enable-whatsapp').addEventListener('change', (e) => {
+			const whatsappInput = document.getElementById('edit-profile-whatsapp');
+			whatsappInput.disabled = !e.target.checked;
+			if (!e.target.checked) whatsappInput.value = ''; // Clear input if disabled
+		});
+   
+        // Event Listeners
+        loginButton.addEventListener('click', () => openModal(loginModal));
+        signupButton.addEventListener('click', () => openModal(signupModal));
+        switchToSignup.addEventListener('click', () => {
+            closeModal(loginModal);
+            openModal(signupModal);
+        });
+        switchToLogin.addEventListener('click', () => {
+            closeModal(signupModal);
+            openModal(loginModal);
+        });
+        
+        closeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const modal = button.closest('.modal');
+                closeModal(modal);
+            });
+        });
+        
+        loginForm.addEventListener('submit', handleLogin);
+        signupForm.addEventListener('submit', handleSignup);
+        addListingForm.addEventListener('submit', handleAddListing);
+        
+        homeLink.addEventListener('click', () => renderView('home', {}, true));
+		productsLink.addEventListener('click', () => renderView('products', {}, true));
+		servicesLink.addEventListener('click', () => renderView('services', {}, true));
+        aboutLink.addEventListener('click', () => renderView('about'));
+        contactLink.addEventListener('click', () => renderView('contact'));
+        
+        navProfileLink.addEventListener('click', () => renderView('profile', currentUser.id));
+        navDashboardLink.addEventListener('click', () => renderView('dashboard'));
+        navFavoritesLink.addEventListener('click', () => renderView('favorites'));
+        navSettingsLink.addEventListener('click', () => renderView('settings'));
+        logoutLink.addEventListener('click', handleLogout);
+        
+        searchButton.addEventListener('click', handleSearch);
+        
+        // Functions
+        function openModal(modal) {
+            modal.style.display = 'flex';
+        }
+        
+        function resetForgotPasswordModal() {
+			document.getElementById('forgot-password-email').value = '';
+			
+		}
+
+		function resetLoginModal() {
+			document.getElementById('login-email').value = ''; 
+			document.getElementById('login-password').value = '';
+		}
+		
+		function resetSignupModal() {
+			document.getElementById('signup-name').value = '';
+			document.getElementById('signup-email').value = '';
+			document.getElementById('signup-password').value = '';
+			document.getElementById('signup-confirm-password').value = '';
+		}
+		
+		function resetAddListingModal() {
+			document.getElementById('listing-type').value = ''; // Reset listing type
+			document.getElementById('listing-title').value = ''; // Clear title input
+			document.getElementById('listing-price').value = ''; // Clear price input
+			document.getElementById('listing-location-name').value = ''; // Clear location name
+			document.getElementById('listing-location-id').value = ''; // Clear location ID
+			document.getElementById('listing-category').value = ''; // Clear category
+			document.getElementById('listing-description').value = ''; // Clear description
+			document.getElementById('image-preview').innerHTML = ''; // Clear image previews
+			uploadedImages = []; // Clear uploaded images array
+		}
+		
+		
+		function closeModal(modal) {
+			modal.style.display = 'none';
+
+			// Reset the modal content based on the modal ID
+			switch (modal.id) {
+				case 'forgot-password-modal':
+					resetForgotPasswordModal();
+					break;
+				case 'login-modal':
+					resetLoginModal();
+					break;
+				case 'signup-modal':
+					resetSignupModal();
+					break;
+				case 'add-listing-modal':
+					resetAddListingModal();
+					break;
+				default:
+					break;
+			}
+		}
+        
+        async function handleLogin(e) {
+			e.preventDefault();
+			const email = document.getElementById('login-email').value;
+			const password = document.getElementById('login-password').value;
+
+			try {
+				const response = await fetch(`${API_BASE_URL}/users/login`, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ email, password }),
+				});
+
+				if (response.ok) {
+					const user = await response.json();
+					currentUser = user;
+					updateAuthUI();
+					closeModal(loginModal);
+					renderView('home');
+					showMessage('Successfully logged in!', 'success');
+				} else {
+					showMessage('Invalid email or password', 'error');
+				}
+			} catch (error) {
+				console.error('Login error:', error);
+				showMessage('An error occurred during login', 'error');
+			}
+		}
+
+		async function handleSignup(e) {
+			e.preventDefault();
+			const name = document.getElementById('signup-name').value;
+			const email = document.getElementById('signup-email').value;
+			const password = document.getElementById('signup-password').value;
+			const confirmPassword = document.getElementById('signup-confirm-password').value;
+
+			if (password !== confirmPassword) {
+				showMessage('Passwords do not match', 'error');
+				return;
+			}
+
+			try {
+				const response = await fetch(`${API_BASE_URL}/users/signup`, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ name, email, password }),
+				});
+
+				if (response.ok) {
+					const user = await response.json();
+					currentUser = user;
+					updateAuthUI();
+					closeModal(signupModal);
+					renderView('profile', currentUser.id);
+					showMessage('Account created successfully!', 'success');
+				} else {
+					showMessage('Email already in use', 'error');
+				}
+			} catch (error) {
+				console.error('Signup error:', error);
+				showMessage('An error occurred during signup', 'error');
+			}
+		}
+		
+		function createAccount(signupData) {
+			const { name, email, password } = signupData;
+
+			const newUser = {
+				id: fakeDb.users.length + 1,
+				name,
+				displayName: name,
+				email,
+				password,
+				profilePic: 'https://picsum.photos/400/400?random=15',
+				phone: '',
+				whatsapp: '',
+				bio: '',
+				joinedDate: new Date().toISOString().split('T')[0],
+				location: '',
+				likes: 0
+			};
+
+			fakeDb.users.push(newUser);
+			currentUser = newUser;
+			closeModal(signupModal);
+
+			updateAuthUI();
+			renderView('profile', currentUser.id);
+			showMessage('Account created successfully!', 'success');
+		}
+        
+        function handleLogout() {
+            currentUser = null;
+            updateAuthUI();
+            renderView('home');
+            showMessage('Logged out successfully', 'success');
+        }
+        
+        async function handleAddListing(e) {
+			e.preventDefault();
+
+			if (!currentUser) {
+				showMessage('Please login to add a listing', 'error');
+				return;
+			}
+
+			// Check if the user has set up their profile
+			const phone = currentUser.phone || '';
+			const whatsapp = currentUser.whatsapp || '';
+			const location = currentUser.location || '';
+
+			if ((phone.length < 5 && whatsapp.length < 5) || !location) {
+				showMessage('Please set up your profile first.', 'error');
+				return;
+			}
+
+			const type = document.getElementById('listing-type').value;
+			const title = document.getElementById('listing-title').value;
+			const price = parseFloat(document.getElementById('listing-price').value);
+			const listingLocation = document.getElementById('listing-location-id').value;
+
+			if (!listingLocation) {
+				showMessage('Please select a location', 'error');
+				return;
+			}
+
+			const category = document.getElementById('listing-category').value;
+			const description = document.getElementById('listing-description').value;
+
+			// Validate images
+			if (uploadedImages.length === 0) {
+				showMessage('Please upload at least one image', 'error');
+				return;
+			}
+
+			// Create new listing
+			const newListing = {
+				id: type === 'product' ? fakeDb.products.length + 1 : fakeDb.services.length + 1,
+				type,
+				title,
+				price,
+				description,
+				location: listingLocation,
+				category,
+				images: uploadedImages,
+				userId: currentUser.id,
+				likes: 0,
+				createdAt: new Date().toISOString().split('T')[0]
+			};
+
+			// Add to the appropriate array
+			try {
+				const endpoint = type === 'product' ? 'products' : 'services';
+				const response = await fetch(`${API_BASE_URL}/${endpoint}`, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(newListing),
+				});
+
+				if (response.ok) {
+					showMessage('Listing added successfully', 'success');
+					renderView('home');
+				} else {
+					showMessage('Failed to add listing', 'error');
+				}
+			} catch (error) {
+				console.error('Add listing error:', error);
+				showMessage('An error occurred while adding the listing', 'error');
+			}
+
+			// Reset form and close modal
+			uploadedImages = [];
+			document.getElementById('add-listing-form').reset();
+			document.getElementById('image-preview').innerHTML = '';
+			closeModal(addListingModal);
+
+			// Show success message
+			showMessage('Listing added successfully', 'success');
+
+			renderDashboard();
+			switchTab('listings-content');
+		}
+        
+        function openContactModal(userId) {
+			const user = fakeDb.users.find(u => u.id === userId);
+			if (!user) {
+				showMessage('User not found', 'error');
+				return;
+			}
+
+			// Set the contact name in the modal
+			document.getElementById('contact-name').textContent = user.displayName;
+
+			// Set up WhatsApp button (if WhatsApp number is available and enabled)
+			const whatsappBtn = document.getElementById('whatsapp-btn');
+			if (user.whatsapp) {
+				whatsappBtn.style.display = 'inline-block';
+				whatsappBtn.onclick = () => {
+					const whatsappUrl = `https://wa.me/${user.whatsapp}`;
+					window.open(whatsappUrl, '_blank');
+				};
+			} else {
+				whatsappBtn.style.display = 'none';
+			}
+
+			// Set up Call button (if phone number is available and enabled)
+			const callBtn = document.getElementById('call-btn');
+			if (user.phone) {
+				callBtn.style.display = 'inline-block';
+				callBtn.onclick = () => {
+					const telUrl = `tel:${user.phone}`;
+					window.location.href = telUrl;
+				};
+			} else {
+				callBtn.style.display = 'none';
+			}
+
+			// Open the modal
+			openModal(contactModal);
+		}
+				
+		// Function to filter listings by location
+		function filterListingsByLocation(locationId) {
+			filterLocation = locationId;
+			localStorage.setItem('selectedLocation', locationId); 
+			renderView(currentView, { category: currentCategory });
+		}
+				
+		function getLocationName(locationId) {
+			if (locationId === 'all') {
+				return 'All'; // Return a meaningful string for "all"
+			}
+			const allLocations = [...locations.cities, ...locations.campuses];
+			const location = allLocations.find(loc => loc.id === locationId);
+			return location ? location.name : 'Unknown Location';
+		}
+        
+        function handleSearch() {
+			const query = searchInput.value.trim().toLowerCase();
+			const category = document.getElementById('category-select').value;
+			const searchType = searchInput.getAttribute('data-search-type'); // Get the search type (products, services, or all)
+
+			let results = [];
+
+			if (searchType === 'products') {
+				// Filter only products
+				results = fakeDb.products.filter(product => 
+					(product.title.toLowerCase().includes(query) || product.description.toLowerCase().includes(query)) &&
+					(category ? product.category === category : true)
+				);
+			} else if (searchType === 'services') {
+				// Filter only services
+				results = fakeDb.services.filter(service => 
+					(service.title.toLowerCase().includes(query) || service.description.toLowerCase().includes(query)) &&
+					(category ? service.category === category : true)
+				);
+			} else if (searchType === 'all') {
+				// Filter both products and services
+				const filteredProducts = fakeDb.products.filter(product => 
+					(product.title.toLowerCase().includes(query) || product.description.toLowerCase().includes(query)) &&
+					(category ? product.category === category : true)
+				);
+				const filteredServices = fakeDb.services.filter(service => 
+					(service.title.toLowerCase().includes(query) || service.description.toLowerCase().includes(query)) &&
+					(category ? service.category === category : true)
+				);
+				results = [...filteredProducts, ...filteredServices]; // Combine results
+			}
+
+			// Render the search results with sorting options
+			renderSearchResults(results, query, category);
+		}
+		
+		function renderSearchResults(results, query, category) {
+			const selectedLocation = getSelectedLocation(); // Get the selected location
+			if (selectedLocation === 'all') {
+				// Include all cities but exclude campuses
+				results = results.filter(item => 
+					locations.cities.some(city => city.id === item.location)
+				);
+			} else if (selectedLocation) {
+				results = results.filter(item => item.location === selectedLocation);
+			}
+
+			// Sort the results based on the current sorting option
+			const sortedResults = sortListings(results, currentSortBy);
+
+			// Check if there are no results to display
+			const noResultsMessage = `
+				<div class="not-found-container">
+					<div class="not-found-content">
+						<i class="fas fa-search not-found-icon"></i>
+						<h2 class="not-found-title">No Results Found</h2>
+						<p class="not-found-message">We couldn't find any listings matching your search. Try refining your search or exploring other categories.</p>
+					</div>
+				</div>
+			`;
+
+			const html = `
+				<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+					<div>
+						<h2 class="section-title">Search Results</h2>
+						<p class="section-subtitle">Showing results for "${query}"${selectedLocation ? ` in ${getLocationName(selectedLocation)}` : ''}</p>
+					</div>
+					<div>
+						<select id="sort-by" class="sort-dropdown">
+							<option value="recommended" ${currentSortBy === 'recommended' ? 'selected' : ''}>Sort by: Recommended</option>
+							<option value="latest" ${currentSortBy === 'latest' ? 'selected' : ''}>Sort by: Latest</option>
+							<option value="name" ${currentSortBy === 'name' ? 'selected' : ''}>Sort by: Name</option>
+							<option value="price-low-to-high" ${currentSortBy === 'price-low-to-high' ? 'selected' : ''}>Sort by: Price (Low to High)</option>
+							<option value="price-high-to-low" ${currentSortBy === 'price-high-to-low' ? 'selected' : ''}>Sort by: Price (High to Low)</option>
+						</select>
+					</div>
+				</div>
+				${sortedResults.length > 0 ? `
+					<div class="listings-grid">
+						${sortedResults.map(item => createListingCard(item)).join('')}
+					</div>
+				` : noResultsMessage}
+			`;
+
+			mainContent.innerHTML = html;
+
+			// Add event listener for the sort dropdown
+			document.getElementById('sort-by').addEventListener('change', (e) => {
+				currentSortBy = e.target.value; // Update the current sorting option
+				const sortedResults = sortListings(results, currentSortBy); // Sort the results
+				renderSearchResults(sortedResults, query, location); // Re-render the search results with sorted data
+			});
+
+			// Add event listeners to listing cards
+			addListingCardEventListeners();
+
+			// Add event listener for the "Browse Categories" button
+			document.getElementById('browse-categories-btn')?.addEventListener('click', () => {
+				renderView('home'); // Redirect to the home page to browse categories
+			});
+		}
+		
+		function updateAuthUI() {
+            if (currentUser) {
+                userActions.style.display = 'none';
+                userProfile.style.display = 'flex';
+                navProfileImg.src = currentUser.profilePic;
+            } else {
+                userActions.style.display = 'flex';
+                userProfile.style.display = 'none';
+            }
+        }
+        
+		function renderView(view, params = {}, scrollToTop = true) {
+			currentView = view;
+			if (view === 'category') {
+				currentCategory = params.category; // Store the current category
+			}
+			const selectedLocation = getSelectedLocation(); // Get the selected location
+
+			// Scroll to the top of the page only if scrollToTop is true
+			if (scrollToTop) {
+				window.scrollTo({
+					top: 0,
+					behavior: 'smooth' // Optional: Add smooth scrolling
+				});
+			}
+
+			// Clear current content
+			mainContent.innerHTML = '';
+
+			switch (view) {
+				case 'home':
+					renderHome();
+					break;
+				case 'products':
+					renderProducts({ ...params, location: selectedLocation });
+					break;
+				case 'services':
+					renderServices({ ...params, location: selectedLocation });
+					break;
+				case 'category':
+					renderCategory(params);
+					break;
+				case 'search':
+					renderSearch(params);
+					break;
+				case 'listing-detail':
+					renderListingDetail(params);
+					break;
+				case 'profile':
+					renderProfile(params);
+					break;
+				case 'browse-listings':
+					renderBrowseListings();
+					break;
+				case 'dashboard':
+					renderDashboard();
+					break;
+				case 'favorites':
+					renderFavorites();
+					break;
+				case 'settings':
+					renderSettings();
+					break;
+				case 'about':
+					renderAbout();
+					break;
+				case 'contact':
+					renderContact();
+					break;
+				default:
+					renderHome();
+			}
+		}
+        
+        function renderHome() {
+			const selectedLocation = getSelectedLocation(); // Get the selected location
+			let productsToShow = fakeDb.products;
+			let servicesToShow = fakeDb.services;
+			
+			searchInput.placeholder = 'What are you looking for?';
+			searchInput.setAttribute('data-search-type', 'all');
+
+			if (selectedLocation === 'all') {
+				// Include all cities but exclude campuses
+				productsToShow = productsToShow.filter(product => 
+					locations.cities.some(city => city.id === product.location)
+				);
+				servicesToShow = servicesToShow.filter(service => 
+					locations.cities.some(city => city.id === service.location)
+				);
+			} else if (selectedLocation) {
+				// Filter by the selected location
+				productsToShow = productsToShow.filter(product => product.location === selectedLocation);
+				servicesToShow = servicesToShow.filter(service => service.location === selectedLocation);
+			}
+
+			// Calculate max likes and max date for normalization
+			const maxLikesProducts = Math.max(...productsToShow.map(p => p.likes), 1);
+			const maxDateProducts = Math.max(...productsToShow.map(p => new Date(p.createdAt).getTime()), 1);
+			const maxLikesServices = Math.max(...servicesToShow.map(s => s.likes), 1);
+			const maxDateServices = Math.max(...servicesToShow.map(s => new Date(s.createdAt).getTime()), 1);
+
+			// Calculate scores for products and services
+			productsToShow.forEach(product => {
+				product.score = calculateScore(product, maxLikesProducts, maxDateProducts);
+			});
+			servicesToShow.forEach(service => {
+				service.score = calculateScore(service, maxLikesServices, maxDateServices);
+			});
+
+			// Sort products and services by score
+			productsToShow.sort((a, b) => b.score - a.score);
+			servicesToShow.sort((a, b) => b.score - a.score);
+
+			// Limit the number of listings shown on the home page
+			productsToShow = productsToShow.slice(0, 4);
+			servicesToShow = servicesToShow.slice(0, 4);
+
+			// Check if there are no products or services to display
+			const noListingsMessage = `
+				<div class="not-found-container">
+					<div class="not-found-content">
+						<i class="fas fa-exclamation-triangle not-found-icon"></i>
+						<h2 class="not-found-title">No Listings Found</h2>
+						<p class="not-found-message">There are currently no listings available in this category or location.</p>
+					</div>
+				</div>
+			`;
+
+			const html = `
+				<!-- Hero Section -->
+				<div class="hero">
+					<div class="hero-content">
+						<h1>Find Local Products & Services</h1>
+						<p>Connect with trusted local businesses and service providers in your area.</p>
+						<div class="hero-buttons">
+							<button class="btn-primary" id="hero-browse-btn">Browse Listings</button>
+							${currentUser ? `<button class="btn-success" id="hero-add-listing-btn">Add Your Listing</button>` : `<button class="btn-success" id="hero-signup-btn">Join Now</button>`}
+						</div>
+					</div>
+				</div>
+
+				<!-- Category Section -->
+				<div class="category-section">
+					<h2 class="section-title">Browse Categories</h2>
+					<div class="category-scroll">
+						${Object.keys(categories).map(categoryId => `
+							<div class="category-card" id="category-${categoryId}">
+								<div style="height: 150px; background-image: url('${categories[categoryId].image}'); background-size: cover;"></div>
+								<h3>${categories[categoryId].name}</h3>
+								<p>${categories[categoryId].description}</p>
+							</div>
+						`).join('')}
+					</div>
+				</div>
+
+				<!-- Featured Products -->
+				<div class="section">
+					<h2 class="section-title">Featured Products</h2>
+					${productsToShow.length > 0 ? `
+						<div class="listings-grid">
+							${productsToShow.map(product => createListingCard(product)).join('')}
+						</div>
+						<div style="text-align: center; margin-top: 20px; margin-bottom: 30px;">
+							<button class="btn-primary" id="view-all-products-btn">View All Products</button>
+						</div>
+					` : noListingsMessage}
+				</div>
+
+				<!-- Popular Services -->
+				<div class="section">
+					<h2 class="section-title">Popular Services</h2>
+					${servicesToShow.length > 0 ? `
+						<div class="listings-grid">
+							${servicesToShow.map(service => createListingCard(service)).join('')}
+						</div>
+						<div style="text-align: center; margin-top: 20px; margin-bottom: 30px;">
+							<button class="btn-primary" id="view-all-services-btn">View All Services</button>
+						</div>
+					` : noListingsMessage}
+				</div>
+
+				<!-- Call to Action -->
+				<div class="section" style="background-color: white; padding: 40px; border-radius: 12px; margin-top: 40px; text-align: center;">
+					<h2 style="margin-bottom: 20px;">Have Something to Offer?</h2>
+					<p style="margin-bottom: 20px; max-width: 600px; margin-left: auto; margin-right: auto;">List your products or services on Keid and connect with customers in your area.</p>
+					<button class="btn-success" style="padding: 12px 24px;" id="cta-add-listing-btn">${currentUser ? 'Add Your Listing' : 'Sign Up to Get Started'}</button>
+				</div>
+			`;
+
+			mainContent.innerHTML = html;
+
+			// Add event listeners
+			document.getElementById('hero-browse-btn').addEventListener('click', () => {
+				renderBrowseListings();
+			});
+
+			if (currentUser) {
+				document.getElementById('hero-add-listing-btn')?.addEventListener('click', openListingCreator);
+				document.getElementById('cta-add-listing-btn').addEventListener('click', openListingCreator);
+			} else {
+				document.getElementById('hero-signup-btn').addEventListener('click', () => openModal(signupModal));
+				document.getElementById('cta-add-listing-btn').addEventListener('click', () => openModal(signupModal));
+			}
+
+			document.getElementById('view-all-products-btn')?.addEventListener('click', () => renderView('products'));
+			document.getElementById('view-all-services-btn')?.addEventListener('click', () => renderView('services'));
+
+			// Add event listeners to listing cards
+			addListingCardEventListeners();
+
+			// Add event listeners for category cards
+			Object.keys(categories).forEach(categoryId => {
+				document.getElementById(`category-${categoryId}`).addEventListener('click', () => {
+					renderView('category', { category: categoryId });
+				});
+			});
+		}
+				
+		function renderCategory(params = {}) {
+			const { category } = params;
+			const selectedLocation = getSelectedLocation();
+
+			let listings = [...fakeDb.products, ...fakeDb.services].filter(item => item.category === category);
+
+			if (selectedLocation === 'all') {
+				listings = listings.filter(item => locations.cities.some(city => city.id === item.location));
+			} else if (selectedLocation) {
+				listings = listings.filter(item => item.location === selectedLocation);
+			}
+
+			// Sort listings based on the current sorting option
+			const sortedListings = sortListings(listings, currentSortBy);
+
+			const noListingsMessage = `
+				<div class="not-found-container">
+					<div class="not-found-content">
+						<i class="fas fa-exclamation-triangle not-found-icon"></i>
+						<h2 class="not-found-title">No Listings Found</h2>
+						<p class="not-found-message">There are currently no listings available in this category or location.</p>
+					</div>
+				</div>
+			`;
+
+			const html = `
+				<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+					<div>
+						<h2 class="section-title">${category.charAt(0).toUpperCase() + category.slice(1)}</h2>
+						<p class="section-subtitle">Browse ${category} products and services</p>
+					</div>
+					<div>
+						<select id="sort-by" class="sort-dropdown">
+							<option value="recommended" ${currentSortBy === 'recommended' ? 'selected' : ''}>Sort by: Recommended</option>
+							<option value="latest" ${currentSortBy === 'latest' ? 'selected' : ''}>Sort by: Latest</option>
+							<option value="name" ${currentSortBy === 'name' ? 'selected' : ''}>Sort by: Name</option>
+							<option value="price-low-to-high" ${currentSortBy === 'price-low-to-high' ? 'selected' : ''}>Sort by: Price (Low to High)</option>
+							<option value="price-high-to-low" ${currentSortBy === 'price-high-to-low' ? 'selected' : ''}>Sort by: Price (High to Low)</option>
+						</select>
+					</div>
+				</div>
+				${sortedListings.length > 0 ? `
+					<div class="listings-grid">
+						${sortedListings.map(listing => createListingCard(listing)).join('')}
+					</div>
+				` : noListingsMessage}
+			`;
+
+			mainContent.innerHTML = html;
+
+			// Add event listener for the sort dropdown
+			document.getElementById('sort-by').addEventListener('change', (e) => {
+				currentSortBy = e.target.value;
+				renderCategory(params); // Re-render the category with the new sorting option
+			});
+
+			// Add event listeners to listing cards
+			addListingCardEventListeners();
+		}
+
+        
+		async function fetchProducts() {
+			try {
+				const response = await fetch(`${API_BASE_URL}/products`);
+				if (response.ok) {
+					const products = await response.json();
+					return products;
+				} else {
+					showMessage('Failed to fetch products', 'error');
+					return [];
+				}
+			} catch (error) {
+				console.error('Fetch products error:', error);
+				showMessage('An error occurred while fetching products', 'error');
+				return [];
+			}
+		}
+		
+        async function renderProducts(params) {
+			const selectedLocation = getSelectedLocation();
+			let products = await fetchProducts();
+
+			if (selectedLocation === 'all') {
+				products = products.filter(product => locations.cities.some(city => city.id === product.location));
+			} else if (selectedLocation) {
+				products = products.filter(product => product.location === selectedLocation);
+			}
+			
+			// Update the search input placeholder and search type
+			searchInput.placeholder = 'Search products...';
+			searchInput.setAttribute('data-search-type', 'products');
+
+			// Sort products based on the current sorting option
+			const sortedProducts = sortListings(products, currentSortBy);
+
+			const noProductsMessage = `
+				<div class="not-found-container">
+					<div class="not-found-content">
+						<i class="fas fa-exclamation-triangle not-found-icon"></i>
+						<h2 class="not-found-title">No Products Found</h2>
+						<p class="not-found-message">There are no products available in this category or location.</p>
+					</div>
+				</div>
+			`;
+
+			const html = `
+				<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+					<div>
+						<h2 class="section-title">All Products</h2>
+						<p class="section-subtitle">Browse all available products</p>
+					</div>
+					<div>
+						<select id="sort-by" class="sort-dropdown">
+							<option value="recommended" ${currentSortBy === 'recommended' ? 'selected' : ''}>Sort by: Recommended</option>
+							<option value="latest" ${currentSortBy === 'latest' ? 'selected' : ''}>Sort by: Latest</option>
+							<option value="name" ${currentSortBy === 'name' ? 'selected' : ''}>Sort by: Name</option>
+							<option value="price-low-to-high" ${currentSortBy === 'price-low-to-high' ? 'selected' : ''}>Sort by: Price (Low to High)</option>
+							<option value="price-high-to-low" ${currentSortBy === 'price-high-to-low' ? 'selected' : ''}>Sort by: Price (High to Low)</option>
+						</select>
+					</div>
+				</div>
+				${sortedProducts.length > 0 ? `
+					<div class="listings-grid">
+						${sortedProducts.map(product => createListingCard(product)).join('')}
+					</div>
+				` : noProductsMessage}
+			`;
+
+			mainContent.innerHTML = html;
+
+			// Add event listener for the sort dropdown
+			document.getElementById('sort-by').addEventListener('change', (e) => {
+				currentSortBy = e.target.value;
+				renderProducts({ listings: products }); // Re-render products with the new sorting option
+			});
+
+			// Add event listeners to listing cards
+			addListingCardEventListeners();
+		}
+
+
+		async function fetchServices() {
+			try {
+				const response = await fetch(`${API_BASE_URL}/services`);
+				if (response.ok) {
+					const services = await response.json();
+					return services;
+				} else {
+					showMessage('Failed to fetch services', 'error');
+					return [];
+				}
+			} catch (error) {
+				console.error('Fetch services error:', error);
+				showMessage('An error occurred while fetching services', 'error');
+				return [];
+			}
+		}
+
+        function renderServices(params) {
+			const selectedLocation = getSelectedLocation();
+			let services = params?.listings || [...fakeDb.services];
+
+			if (selectedLocation === 'all') {
+				services = services.filter(service => locations.cities.some(city => city.id === service.location));
+			} else if (selectedLocation) {
+				services = services.filter(service => service.location === selectedLocation);
+			}
+
+			// Update the search input placeholder and search type
+			searchInput.placeholder = 'Search services...';
+			searchInput.setAttribute('data-search-type', 'services');
+			
+			// Sort services based on the current sorting option
+			const sortedServices = sortListings(services, currentSortBy);
+
+			const noServicesMessage = `
+				<div class="not-found-container">
+					<div class="not-found-content">
+						<i class="fas fa-exclamation-triangle not-found-icon"></i>
+						<h2 class="not-found-title">No Services Found</h2>
+						<p class="not-found-message">There are no services available in this category or location.</p>
+					</div>
+				</div>
+			`;
+
+			const html = `
+				<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+					<div>
+						<h2 class="section-title">All Services</h2>
+						<p class="section-subtitle">Browse all available services</p>
+					</div>
+					<div>
+						<select id="sort-by" class="sort-dropdown">
+							<option value="recommended" ${currentSortBy === 'recommended' ? 'selected' : ''}>Sort by: Recommended</option>
+							<option value="latest" ${currentSortBy === 'latest' ? 'selected' : ''}>Sort by: Latest</option>
+							<option value="name" ${currentSortBy === 'name' ? 'selected' : ''}>Sort by: Name</option>
+							<option value="price-low-to-high" ${currentSortBy === 'price-low-to-high' ? 'selected' : ''}>Sort by: Price (Low to High)</option>
+							<option value="price-high-to-low" ${currentSortBy === 'price-high-to-low' ? 'selected' : ''}>Sort by: Price (High to Low)</option>
+						</select>
+					</div>
+				</div>
+				${sortedServices.length > 0 ? `
+					<div class="listings-grid">
+						${sortedServices.map(service => createListingCard(service)).join('')}
+					</div>
+				` : noServicesMessage}
+			`;
+
+			mainContent.innerHTML = html;
+
+			// Add event listener for the sort dropdown
+			document.getElementById('sort-by').addEventListener('change', (e) => {
+				currentSortBy = e.target.value;
+				renderServices({ listings: services }); // Re-render services with the new sorting option
+			});
+
+			// Add event listeners to listing cards
+			addListingCardEventListeners();
+		}
+
+        function renderSearch(params) {
+			const selectedLocation = getSelectedLocation(); // Get the selected location
+			const { query, listings } = params;
+			let results = listings || [...fakeDb.products, ...fakeDb.services];
+			if (selectedLocation) {
+				results = results.filter(item => item.location === selectedLocation);
+			}
+
+			if (query) {
+				results = results.filter(item => 
+					(item.title.toLowerCase().includes(query) || item.description.toLowerCase().includes(query)) &&
+					(location ? item.location === location : true)
+				);
+			}
+
+			// Render the search results with sorting options
+			renderSearchResults(results, query, location);
+		}
+				
+		function getSelectedLocation() {
+			const selectedLocation = localStorage.getItem('selectedLocation'); // Get the selected location from localStorage
+			return selectedLocation || 'all'; // Return 'all' as the default if no location is selected
+		}
+		
+		function openListingCreator() {
+			// Check if the user is logged in
+			if (!currentUser) {
+				showMessage('Please login to add a listing', 'error');
+				return;
+			}
+
+			// Check if the user has set up their profile
+			const phone = currentUser.phone || '';
+			const whatsapp = currentUser.whatsapp || '';
+			const location = currentUser.location || '';
+
+			if ((phone.length < 5 && whatsapp.length < 5) || !location) {
+				showMessage('Please set up your profile first.', 'error');
+				return;
+			}
+				
+			// Pre-fill the location field with the user's profile location
+			const locationName = getLocationName(location);
+			document.getElementById('listing-location-name').value = locationName;
+			document.getElementById('listing-location-id').value = location;
+
+			openModal(addListingModal);
+		}
+
+        function renderListingDetail(id) {
+			// Convert id to a number (if it's a string)
+			id = Number(id);
+
+			// Search for the listing in both products and services
+			const listing = [...fakeDb.products, ...fakeDb.services].find(item => item.id === id);
+
+			if (!listing) {
+				const html = `
+					<div class="not-found-container">
+						<div class="not-found-content">
+							<i class="fas fa-exclamation-triangle not-found-icon"></i>
+							<h2 class="not-found-title">Oops! Listing Not Found</h2>
+							<p class="not-found-message">The listing you're looking for doesn't exist or may not be available in selected location.</p>
+							<button class="btn-primary" id="go-home-btn">
+								<i class="fas fa-home"></i> Go Back Home
+							</button>
+						</div>
+					</div>
+				`;
+				mainContent.innerHTML = html;
+
+				// Add event listener for the "Go Back Home" button
+				document.getElementById('go-home-btn').addEventListener('click', () => {
+					renderView('home');
+				});
+				return;
+			}
+
+			// Find the owner of the listing
+			const owner = fakeDb.users.find(user => user.id === listing.userId);
+
+			// Check if the current user has liked the listing
+			const isLiked = fakeDb.userLikes.some(like => like.userId === currentUser?.id && like.listingId === listing.id);
+			const isFavorited = fakeDb.favorites.some(fav => fav.userId === currentUser?.id && fav.listingId === listing.id);
+
+			const formattedCategory = listing.category
+				.split('-') // Split by hyphens
+				.map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
+				.join(' '); // Join with spaces
+
+			const category = listing.category ? `
+				<div class="detail-meta">
+					<div><i class="fas fa-user"></i> Listed by: <a href="#" id="view-owner-profile-link">${owner ? owner.displayName : 'Unknown'}</a></div>
+				</div>
+			` : '';
+
+			const html = `
+				<div class="detail-container">
+					<div class="detail-header" style="background-image: url('${listing.images[0]}')">
+						<div class="detail-overlay">
+							<h1 class="detail-title">${listing.title}</h1>
+							<div class="detail-meta">
+								<div><i class="fas fa-map-marker-alt"></i> ${getLocationName(listing.location)}</div>
+								<div><i class="fas fa-calendar-alt"></i> ${listing.createdAt}</div>
+								<div><i class="fas fa-tag"></i> ${formattedCategory}</div>
+							</div>
+							${category}
+						</div>
+					</div>
+					<div class="detail-content">
+						<div class="detail-price">$${listing.price}</div>
+						<div class="detail-description">${listing.description}</div>
+						<div class="detail-actions">
+							<button class="btn-info" id="like-listing-btn">
+								<i class="fas fa-thumbs-up ${isLiked ? 'liked-icon' : ''}"></i> ${isLiked ? `Liked (${listing.likes})` : `Like (${listing.likes})`}
+							</button>
+							<button class="btn-info" id="favorite-listing-btn">
+								<i class="fas fa-heart ${isFavorited ? 'favorited-icon' : ''}"></i> ${isFavorited ? 'Remove from Favorites' : 'Add to Favorites'}
+							</button>
+						</div>
+						<div>
+							<button class="btn-primary" id="contact-seller-btn">
+								<i class="fas fa-envelope"></i> Contact Seller
+							</button>
+						</div>
+						<div class="detail-section">
+							<h3 class="detail-section-title">Gallery</h3>
+							<div class="gallery">
+								${listing.images.map(image => `
+									<div class="gallery-item" style="background-image: url('${image}')" data-image="${image}"></div>
+								`).join('')}
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Full Image View -->
+				<div class="full-image-view" id="full-image-view">
+					<span class="close-icon" id="close-full-image">&times;</span>
+					<img src="" alt="Full Image" id="full-image">
+				</div>
+			`;
+
+			mainContent.innerHTML = html;
+
+			// Add event listeners for the buttons
+			document.getElementById('contact-seller-btn').addEventListener('click', () => {
+				const listing = [...fakeDb.products, ...fakeDb.services].find(item => item.id === id);
+				if (listing) {
+					openContactModal(listing.userId);
+				}
+			});
+
+			document.getElementById('like-listing-btn').addEventListener('click', () => handleLikeListing(id));
+
+			document.getElementById('favorite-listing-btn').addEventListener('click', () => handleFavoriteListing(id));
+
+			// Add event listener for the "View Owner's Profile" link
+			if (owner) {
+				document.getElementById('view-owner-profile-link').addEventListener('click', (e) => {
+					e.preventDefault();
+					renderView('profile', owner.id);
+				});
+			}
+
+			// Add event listeners for gallery items
+			document.querySelectorAll('.gallery-item').forEach(item => {
+				item.addEventListener('click', () => {
+					const imageUrl = item.getAttribute('data-image');
+					openFullImage(imageUrl);
+				});
+			});
+
+			// Add event listener for the close icon
+			document.getElementById('close-full-image').addEventListener('click', closeFullImage);
+		}
+
+        function renderProfile(userId) {
+			const user = fakeDb.users.find(u => u.id === userId);
+
+			if (!user) {
+				const html = `
+					<div class="not-found-container">
+						<div class="not-found-content">
+							<i class="fas fa-exclamation-triangle not-found-icon"></i>
+							<h2 class="not-found-title">Oops! User Not Found</h2>
+							<p class="not-found-message">The user profile you're looking for doesn't exist or may have been removed.</p>
+							<button class="btn-primary" id="go-home-btn">
+								<i class="fas fa-home"></i> Go Back Home
+							</button>
+						</div>
+					</div>
+				`;
+				mainContent.innerHTML = html;
+
+				// Add event listener for the "Go Back Home" button
+				document.getElementById('go-home-btn').addEventListener('click', () => {
+					renderView('home');
+				});
+				return;
+			}
+
+			const userProducts = fakeDb.products.filter(product => product.userId === userId);
+			const userServices = fakeDb.services.filter(service => service.userId === userId);
+			const hasListings = userProducts.length > 0 || userServices.length > 0;
+
+			// Check if the current user has liked this profile
+			const isLiked = fakeDb.userLikes.some(like => like.userId === currentUser?.id && like.listingId === userId);
+
+			// Check if the current user is viewing their own profile
+			const isOwnProfile = currentUser && currentUser.id === userId;
+
+			const html = `
+				<div class="profile-header">
+					<img src="${user.profilePic}" alt="Profile Picture" class="profile-avatar">
+					<div class="profile-info">
+						<h1 class="profile-name">${user.displayName}</h1>
+						<div class="profile-meta">
+							<div><i class="fas fa-map-marker-alt"></i> ${getLocationName(user.location)}</div>
+							<div><i class="fas fa-calendar-alt"></i> Joined ${user.joinedDate}</div>
+						</div>
+						<div class="profile-stats">
+							<div class="profile-stat">
+								<i class="fas fa-thumbs-up"></i> ${user.likes} Likes
+							</div>
+							<div class="profile-stat">
+								<i class="fas fa-list"></i> ${userProducts.length + userServices.length} Listings
+							</div>
+						</div>
+						<div class="profile-actions">
+							${!isOwnProfile ? `
+								<button class="btn-primary" id="contact-user-btn">
+									<i class="fas fa-envelope"></i> Contact
+								</button>
+							` : ''}
+							${isOwnProfile ? `
+								<button class="btn-info" id="edit-profile-btn">
+									<i class="fas fa-edit"></i> Edit Profile
+								</button>
+							` : `
+								<button class="btn-success ${isLiked ? 'active' : ''}" id="like-profile-btn">
+									<i class="fas fa-thumbs-up"></i> ${isLiked ? 'Liked' : 'Like'}
+								</button>
+							`}
+						</div>
+					</div>
+				</div>
+				<div class="tab-container">
+					<div class="tabs">
+						<div class="tab active" id="tab-listings">Listings</div>
+						<div class="tab" id="tab-about">About</div>
+					</div>
+					<div class="tab-content active" id="tab-content-listings">
+						<h2 class="section-title">Listings</h2>
+						${hasListings ? `
+							<div class="listings-grid">
+								${userProducts.map(product => createListingCard(product)).join('')}
+								${userServices.map(service => createListingCard(service)).join('')}
+							</div>
+						` : `
+							<div class="not-found-compressed">
+								<div class="not-found-content">
+									<i class="fas fa-box-open not-found-icon"></i>
+									<h2 class="not-found-title">No Listings Yet</h2>
+									<p class="not-found-message">
+										${isOwnProfile ? `
+											You haven't added any listings yet. Use the dashboard when ready!
+										` : `
+											${user.displayName} hasn't added any listings yet.
+										`}
+									</p>
+								</div>
+							</div>
+						`}
+					</div>
+					<div class="tab-content" id="tab-content-about">
+						<h2 class="section-title">About</h2>
+						<p>${user.bio || 'No bio available'}</p>
+					</div>
+				</div>
+			`;
+
+			mainContent.innerHTML = html;
+
+			// Add event listener for the Contact button if it exists
+			if (!isOwnProfile) {
+				document.getElementById('contact-user-btn').addEventListener('click', () => {
+					openContactModal(user.id); // Open the contact modal for this user
+				});
+			}
+
+			// Add event listener for the Edit Profile button if it exists
+			if (isOwnProfile) {
+				document.getElementById('edit-profile-btn').addEventListener('click', () => {
+					openEditProfileModal(user);
+				});
+
+				// Add event listener for the "Add Your First Listing" button if it exists
+				document.getElementById('add-first-listing-btn')?.addEventListener('click', openListingCreator);
+			} else {
+				document.getElementById('like-profile-btn').addEventListener('click', () => {
+					handleLikeProfile(user.id);
+				});
+			}
+
+			// Add event listeners for tabs
+			document.getElementById('tab-listings').addEventListener('click', () => {
+				document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+				document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+				document.getElementById('tab-listings').classList.add('active');
+				document.getElementById('tab-content-listings').classList.add('active');
+			});
+
+			document.getElementById('tab-about').addEventListener('click', () => {
+				document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+				document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+				document.getElementById('tab-about').classList.add('active');
+				document.getElementById('tab-content-about').classList.add('active');
+			});
+
+			// Add event listeners to listing cards
+			addListingCardEventListeners();
+		}
+
+        function renderDashboard() {
+			if (!currentUser) {
+				mainContent.innerHTML = '<p>Please login to access the dashboard</p>';
+				return;
+			}
+
+			const userListings = [
+				...fakeDb.products.filter(product => product.userId === currentUser.id),
+				...fakeDb.services.filter(service => service.userId === currentUser.id)
+			];
+			const hasListings = userListings.length > 0;
+
+			const html = `
+				<div class="dashboard-container">
+					<div class="dashboard-sidebar">
+						<ul class="dashboard-nav">
+							<li><a href="#" class="active" id="dashboard-tab"><i class="fas fa-tachometer-alt"></i> Overview</a></li>
+							<li><a href="#" id="listings-tab"><i class="fas fa-list"></i> My Listings</a></li>
+						</ul>
+					</div>
+					<div class="dashboard-content">
+						<div class="dashboard-header">
+							<h2 class="dashboard-title">Dashboard</h2>
+							<button class="btn-success" id="add-listing-btn">Add Listing</button>
+						</div>
+
+						<!-- Overview Section (Default Tab) -->
+						<div id="overview-content" class="tab-content active">
+							<div class="dashboard-stats">
+								<div class="stat-card">
+									<div class="stat-value">${currentUser ? currentUser.likes : 0}</div>
+									<div class="stat-label">Total Likes</div>
+								</div>
+								<div class="stat-card">
+									<div class="stat-value">${currentUser ? userListings.length : 0}</div>
+									<div class="stat-label">Total Listings</div>
+								</div>
+								<div class="stat-card">
+									<div class="stat-value">${currentUser ? fakeDb.favorites.filter(fav => fav.userId === currentUser.id).length : 0}</div>
+									<div class="stat-label">Total Favorites</div>
+								</div>
+								<div class="stat-card">
+									<div class="stat-value">${currentUser ? getMostPopularListing(currentUser.id) : 'N/A'}</div>
+									<div class="stat-label">Most Popular Listing</div>
+								</div>
+							</div>
+						</div>
+
+						<div id="listings-content" class="tab-content">
+							<h3 class="section-title">My Listings</h3>
+							${hasListings ? `
+								<div class="listings-grid">
+									${userListings.map(listing => createListingCard(listing, true)).join('')}
+								</div>
+							` : `
+								<div class="not-found-compressed">
+									<div class="not-found-content">
+										<i class="fas fa-box-open not-found-icon"></i>
+										<h2 class="not-found-title">No Listings</h2>
+										<p class="not-found-message">
+											You haven't added any listings yet.
+										</p>
+									</div>
+								</div>
+							`}
+						</div>
+					</div>
+				</div>
+			`;
+
+			mainContent.innerHTML = html;
+
+			// Add event listeners for tabs
+			document.getElementById('dashboard-tab').addEventListener('click', (e) => {
+				e.preventDefault();
+				switchTab('overview-content');
+			});
+
+			document.getElementById('listings-tab').addEventListener('click', (e) => {
+				e.preventDefault();
+				switchTab('listings-content');
+			});
+
+			// Add event listener for the "Add Listing" button
+			document.getElementById('add-listing-btn')?.addEventListener('click', openListingCreator);
+
+			// Add event listener for the "Add Your First Listing" button if it exists
+			document.getElementById('add-first-listing-btn')?.addEventListener('click', openListingCreator);
+			
+			// After deleting a listing
+			document.querySelectorAll('#delete-listing-btn').forEach(button => {
+				button.addEventListener('click', (e) => {
+					e.stopPropagation();
+					const id = button.getAttribute('data-id');
+					handleDeleteListing(id);
+				});
+			});
+
+			// Add event listeners to listing cards
+			addListingCardEventListeners();
+
+			// Add event listeners for edit and delete buttons
+			document.querySelectorAll('#edit-listing-btn').forEach(button => {
+				button.addEventListener('click', (e) => {
+					e.stopPropagation();
+					const id = button.getAttribute('data-id');
+					openEditListingModal(id);
+				});
+			});
+
+			document.querySelectorAll('#delete-listing-btn').forEach(button => {
+				button.addEventListener('click', (e) => {
+					e.stopPropagation();
+					const id = button.getAttribute('data-id');
+					handleDeleteListing(id);
+				});
+			});
+		}
+
+		// Function to switch between tabs
+		function switchTab(tabId) {
+			// Hide all tab contents
+			document.querySelectorAll('.tab-content').forEach(tab => {
+				tab.classList.remove('active');
+			});
+
+			// Show the selected tab content
+			document.getElementById(tabId).classList.add('active');
+
+			// Update the active tab in the sidebar
+			document.querySelectorAll('.dashboard-nav a').forEach(tab => {
+				tab.classList.remove('active');
+			});
+			//document.querySelector(`.dashboard-nav a[href="#${tabId}"]`).classList.add('active');
+		}
+				
+		function getMostPopularListing(userId) {
+			const userListings = [...fakeDb.products, ...fakeDb.services].filter(item => item.userId === userId);
+			if (userListings.length === 0) return 'N/A';
+
+			const mostPopular = userListings.reduce((prev, current) => (prev.likes > current.likes) ? prev : current);
+			return mostPopular.title;
+		}
+
+       function renderFavorites() {
+			if (!currentUser) {
+				mainContent.innerHTML = '<p>Please login to view your favorites</p>';
+				return;
+			}
+
+			// Get the user's favorite listings
+			const favoriteListings = [...fakeDb.products, ...fakeDb.services].filter(listing =>
+				fakeDb.favorites.some(fav => fav.userId === currentUser.id && fav.listingId === listing.id)
+			);
+
+			const noFavoritesMessage = `
+				<div class="not-found-container">
+					<div class="not-found-content">
+						<i class="fas fa-heart not-found-icon"></i>
+						<h2 class="not-found-title">No Favorites Yet</h2>
+						<p class="not-found-message">You haven't added any listings to your favorites. Start exploring and add some!</p>
+						<button class="btn-primary" id="browse-listings-btn">
+							<i class="fas fa-search"></i> Browse Listings
+						</button>
+					</div>
+				</div>
+			`;
+
+			const html = `
+				<h2 class="section-title">Favorites</h2>
+				${favoriteListings.length > 0 ? `
+					<div class="listings-grid">
+						${favoriteListings.map(listing => createListingCard(listing)).join('')}
+					</div>
+				` : noFavoritesMessage}
+			`;
+
+			mainContent.innerHTML = html;
+
+			// Add event listeners to listing cards
+			addListingCardEventListeners();
+
+			// Add event listener for the "Browse Listings" button
+			document.getElementById('browse-listings-btn')?.addEventListener('click', () => {
+				renderView('home');
+			});
+		}
+
+        function renderSettings() {
+			if (!currentUser) {
+				mainContent.innerHTML = '<p>Please login to access settings</p>';
+				return;
+			}
+
+			const html = `
+				<div class="form-container">
+					<h2 class="form-title">Settings</h2>
+					<form id="settings-form">
+						<div class="form-group">
+							<label for="settings-name">Full Name</label>
+							<input type="text" maxlength="13" id="settings-name" value="${currentUser.name}" required>
+						</div>
+						<div class="form-group">
+							<label for="settings-email">Email</label>
+							<input type="email" id="settings-email" value="${currentUser.email}" disabled>
+						</div>
+						<div class="form-group">
+							<label for="settings-password">Password</label>
+							<input type="password" id="settings-password" placeholder="Enter new password">
+						</div>
+						<div class="form-group">
+							<label for="settings-confirm-password">Confirm Password</label>
+							<input type="password" id="settings-confirm-password" placeholder="Confirm new password">
+						</div>
+						<button type="submit" class="btn-primary">Save Changes</button>
+					</form>
+				</div>
+			`;
+
+			mainContent.innerHTML = html;
+
+			// Add event listener for settings form
+			document.getElementById('settings-form').addEventListener('submit', handleSettingsUpdate);
+		}
+
+        function renderAbout() {
+			const html = `
+				<div class="about-container">
+					<h2 class="section-title">About Us</h2>
+					<div class="about-content">
+						<p>Keid is a platform that connects local businesses with customers in their area. Our mission is to make it easy for people to find and support local products and services.</p>
+						<p>Whether you're looking for a new product or need a service, Keid has you covered. Join our community today and start exploring!</p>
+					</div>
+				</div>
+			`;
+
+			mainContent.innerHTML = html;
+		}
+
+        function renderContact() {
+			const html = `
+				<div class="contact-container">
+					<h2 class="section-title">Contact Us</h2>
+					<p class="contact-subtitle">If you have any questions or need assistance, please feel free to reach out to us.</p>
+					<div class="form-container">
+						<form id="contact-us-form">
+							<div class="form-group">
+								<label for="contact-us-name">Name</label>
+								<input type="text" maxlength="50" id="contact-us-name" required>
+							</div>
+							<div class="form-group">
+								<label for="contact-us-email">Email</label>
+								<input type="email" maxlength="50" id="contact-us-email" required>
+							</div>
+							<div class="form-group">
+								<label for="contact-us-subject">Subject</label>
+								<input type="text" id="contact-us-subject" required>
+							</div>
+							<div class="form-group">
+								<label for="contact-us-message">Message</label>
+								<textarea id="contact-us-message" rows="5" required></textarea>
+							</div>
+							<button type="submit" class="btn-primary">
+								<i class="fas fa-paper-plane"></i> Send Message
+							</button>
+						</form>
+					</div>
+				</div>
+			`;
+
+			mainContent.innerHTML = html;
+
+			// Add event listener for contact form
+			document.getElementById('contact-us-form').addEventListener('submit', handleContactUsForm);
+		}
+
+        function createListingCard(listing, isDashboard = false) {
+			const lister = fakeDb.users.find(user => user.id === listing.userId);
+			const isLiked = fakeDb.userLikes.some(like => like.userId === currentUser?.id && like.listingId === listing.id);
+			const isFavorited = fakeDb.favorites.some(fav => fav.userId === currentUser?.id && fav.listingId === listing.id);
+
+			return `
+				<div class="listing-card" data-id="${listing.id}">
+					<div class="listing-image" style="background-image: url('${listing.images[0]}')">
+						<div class="listing-type ${listing.type === 'product' ? 'type-product' : 'type-service'}">${listing.type}</div>
+					</div>
+					<div class="listing-content">
+						<h3 class="listing-title">${listing.title}</h3>
+						<p class="listing-price">$${listing.price}</p>
+						<p class="listing-location"><i class="fas fa-map-marker-alt"></i> ${getLocationName(listing.location)}</p>
+						<p class="listing-lister"><i class="fas fa-user"></i> Listed by: <a href="#" class="view-owner-profile-link">${lister ? lister.displayName : 'Unknown'}</a></p>
+						<div class="listing-actions">
+							${isDashboard ? `
+								<button class="btn-info btn-sm" id="edit-listing-btn" data-id="${listing.id}">Edit</button>
+								<button class="btn-danger btn-sm" id="delete-listing-btn" data-id="${listing.id}">Delete</button>
+							` : `
+								<button class="listing-like" data-id="${listing.id}">
+									<i class="fas fa-thumbs-up ${isLiked ? 'liked-icon' : ''}"></i> ${listing.likes}
+								</button>
+								<button class="listing-favorite" data-id="${listing.id}">
+									<i class="fas fa-heart ${isFavorited ? 'favorited-icon' : ''}"></i>
+								</button>
+							`}
+						</div>
+					</div>
+				</div>
+			`;
+		}
+
+
+        function addListingCardEventListeners() {
+			document.querySelectorAll('.listing-card').forEach(card => {
+				card.addEventListener('click', () => {
+					const id = card.getAttribute('data-id');
+					renderView('listing-detail', id);
+				});
+			});
+
+			document.querySelectorAll('.listing-like').forEach(button => {
+				button.addEventListener('click', (e) => {
+					e.stopPropagation(); // Prevent the card click event from firing
+					const id = button.getAttribute('data-id');
+					handleLikeListing(id);
+				});
+			});
+
+			document.querySelectorAll('.listing-favorite').forEach(button => {
+				button.addEventListener('click', (e) => {
+					e.stopPropagation(); // Prevent the card click event from firing
+					const id = button.getAttribute('data-id');
+					handleFavoriteListing(id);
+				});
+			});
+
+			// Add event listener for "View Owner's Profile" link
+			document.querySelectorAll('.view-owner-profile-link').forEach(link => {
+				link.addEventListener('click', (e) => {
+					e.stopPropagation(); // Prevent the card click event from firing
+					const listingId = link.closest('.listing-card').getAttribute('data-id');
+					const listing = [...fakeDb.products, ...fakeDb.services].find(item => item.id === Number(listingId));
+					if (listing) {
+						renderView('profile', listing.userId);
+					}
+				});
+			});
+		}
+
+        function handleLikeListing(listingId) {
+			if (!currentUser) {
+				showMessage('Please login to like a listing', 'error');
+				return;
+			}
+
+			// Convert listingId to a number (if it's a string)
+			listingId = Number(listingId);
+
+			// Find the listing in products or services
+			const listing = [...fakeDb.products, ...fakeDb.services].find(item => item.id === listingId);
+
+			if (!listing) {
+				showMessage('Listing not found', 'error');
+				return;
+			}
+
+			// Check if the user has already liked the listing
+			const likeIndex = fakeDb.userLikes.findIndex(
+				like => like.userId === currentUser.id && like.listingId === listingId
+			);
+
+			if (likeIndex === -1) {
+				// Add the like
+				fakeDb.userLikes.push({ userId: currentUser.id, listingId });
+				listing.likes++; // Increment the like count
+				showMessage('Listing liked!', 'success');
+			} else {
+				// Remove the like
+				fakeDb.userLikes.splice(likeIndex, 1);
+				listing.likes--; // Decrement the like count
+				showMessage('Listing unliked', 'success');
+			}
+
+			// Re-render the current view without scrolling to the top
+			if (currentView === 'listing-detail') {
+				renderView('listing-detail', listingId, false); // Pass scrollToTop: false
+			} else if (currentView === 'profile') {
+				const profileUserId = listing.userId;
+				renderView('profile', profileUserId, false); // Pass scrollToTop: false
+			} else if (currentView === 'category') {
+				renderCategory({ category: currentCategory }, false); // Pass scrollToTop: false
+			} else {
+				renderView(currentView, {}, false); // Pass scrollToTop: false
+			}
+		}
+
+		function handleFavoriteListing(listingId) {
+			if (!currentUser) {
+				showMessage('Please login to favorite a listing', 'error');
+				return;
+			}
+
+			// Convert listingId to a number (if it's a string)
+			listingId = Number(listingId);
+
+			// Check if the listing is already favorited
+			const favoriteIndex = fakeDb.favorites.findIndex(
+				fav => fav.userId === currentUser.id && fav.listingId === listingId
+			);
+
+			if (favoriteIndex === -1) {
+				// Add to favorites
+				fakeDb.favorites.push({ userId: currentUser.id, listingId });
+				showMessage('Listing added to favorites!', 'success');
+			} else {
+				// Remove from favorites
+				fakeDb.favorites.splice(favoriteIndex, 1);
+				showMessage('Listing removed from favorites', 'success');
+			}
+
+			// Re-render the current view without scrolling to the top
+			if (currentView === 'listing-detail') {
+				renderView('listing-detail', listingId, false); // Pass scrollToTop: false
+			} else if (currentView === 'profile') {
+				const profileUserId = listing.userId;
+				renderView('profile', profileUserId, false); // Pass scrollToTop: false
+			} else if (currentView === 'category') {
+				renderCategory({ category: currentCategory }, false); // Pass scrollToTop: false
+			} else {
+				renderView(currentView, {}, false); // Pass scrollToTop: false
+			}
+		}
+
+        function handleSettingsUpdate(e) {
+			e.preventDefault();
+
+			const name = document.getElementById('settings-name').value;
+			const email = document.getElementById('settings-email').value;
+			const password = document.getElementById('settings-password').value;
+			const confirmPassword = document.getElementById('settings-confirm-password').value;
+
+			if (password && password !== confirmPassword) {
+				showMessage('Passwords do not match', 'error');
+				return;
+			}
+
+			currentUser.name = name;
+			currentUser.email = email;
+			if (password) currentUser.password = password;
+
+			showMessage('Settings updated successfully!', 'success');
+		}
+
+        function handleContactUsForm(e) {
+			e.preventDefault();
+
+			// Get form data
+			const name = document.getElementById('contact-us-name').value;
+			const email = document.getElementById('contact-us-email').value;
+			const subject = document.getElementById('contact-us-subject').value;
+			const message = document.getElementById('contact-us-message').value;
+
+			// Construct the mailto link
+			const mailtoLink = `mailto:your-email@example.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
+				`Name: ${name}\nEmail: ${email}\n\nMessage: ${message}`
+			)}`;
+
+			// Open the default email client
+			window.location.href = mailtoLink;
+		}
+		
+        function showMessage(message, type) {
+			// Create a toast element
+			const toast = document.createElement('div');
+			toast.className = `toast ${type}`;
+			toast.textContent = message;
+
+			// Append the toast to the body
+			document.body.appendChild(toast);
+
+			// Automatically remove the toast after 3 seconds
+			setTimeout(() => {
+				toast.remove();
+			}, 3000);
+		}
+		
+		// Function to open the full image view
+		function openFullImage(imageUrl) {
+			const fullImageView = document.getElementById('full-image-view');
+			const fullImage = document.getElementById('full-image');
+
+			fullImage.src = imageUrl;
+			fullImageView.style.display = 'flex';
+		}
+
+		// Function to close the full image view
+		function closeFullImage() {
+			const fullImageView = document.getElementById('full-image-view');
+			fullImageView.style.display = 'none';
+		}
+		
+		
+		
+		function renderImagePreviews() {
+			const imagePreview = document.getElementById('image-preview');
+			imagePreview.innerHTML = ''; // Clear previous previews
+
+			uploadedImages.forEach((image, index) => {
+				imagePreview.innerHTML += `
+					<div class="image-preview-item">
+						<img src="${image}" alt="Preview ${index + 1}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+						<span class="remove" data-index="${index}">&times;</span>
+					</div>
+				`;
+			});
+
+			// Add event listeners for remove buttons
+			document.querySelectorAll('.image-preview-item .remove').forEach(button => {
+				button.addEventListener('click', (e) => {
+					e.stopPropagation();
+					const index = button.getAttribute('data-index');
+					uploadedImages.splice(index, 1); // Remove image from array
+					renderImagePreviews(); // Re-render previews
+				});
+			});
+		}
+		
+		function renderEditListingImagePreviews(listing) {
+			const editImagePreview = document.getElementById('edit-image-preview');
+			editImagePreview.innerHTML = ''; // Clear previous previews
+
+			// Preload existing images from the listing
+			if (listing.images && listing.images.length > 0) {
+				listing.images.forEach((image, index) => {
+					editImagePreview.innerHTML += `
+						<div class="image-preview-item">
+							<img src="${image}" alt="Preview ${index + 1}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+							<span class="remove" data-index="${index}">&times;</span>
+						</div>
+					`;
+				});
+
+				// Add event listeners for remove buttons
+				document.querySelectorAll('.image-preview-item .remove').forEach(button => {
+					button.addEventListener('click', (e) => {
+						e.stopPropagation();
+						const index = button.getAttribute('data-index');
+						listing.images.splice(index, 1); // Remove image from array
+						renderEditListingImagePreviews(listing); // Re-render previews
+					});
+				});
+			}
+		}
+		
+		function handleLikeProfile(userId) {
+			if (!currentUser) {
+				showMessage('Please login to like a profile', 'error');
+				return;
+			}
+
+			// Convert userId to a number (if it's a string)
+			userId = Number(userId);
+
+			// Find the user in the database
+			const user = fakeDb.users.find(u => u.id === userId);
+
+			if (!user) {
+				showMessage('User not found', 'error');
+				return;
+			}
+
+			// Check if the current user has already liked the profile
+			const likeIndex = fakeDb.userLikes.findIndex(
+				like => like.userId === currentUser.id && like.listingId === userId
+			);
+
+			if (likeIndex === -1) {
+				// Add the like
+				fakeDb.userLikes.push({ userId: currentUser.id, listingId: userId });
+				user.likes++; // Increment the like count
+				showMessage('Profile liked!', 'success');
+			} else {
+				// Remove the like
+				fakeDb.userLikes.splice(likeIndex, 1);
+				user.likes--; // Decrement the like count
+				showMessage('Profile unliked', 'success');
+			}
+
+			// Re-render the profile to update the UI
+			renderProfile(userId);
+		}
+		
+		// Function to open the edit profile modal
+		function openEditProfileModal(user) {
+			const editProfileModal = document.getElementById('edit-profile-modal');
+			const editProfileForm = document.getElementById('edit-profile-form');
+			const editProfilePicPreview = document.getElementById('edit-profile-pic-preview');
+			const locationName = getLocationName(user.location);
+
+			// Remove the +263 prefix when preloading the dialog
+			const phoneNumber = user.phone?.startsWith('+263') ? user.phone.slice(4) : user.phone || '';
+			const whatsappNumber = user.whatsapp?.startsWith('+263') ? user.whatsapp.slice(4) : user.whatsapp || '';
+
+			// Populate the form with current user data
+			document.getElementById('edit-profile-display-name').value = user.displayName;
+			document.getElementById('edit-profile-location-name').value = locationName;
+			document.getElementById('edit-profile-location-id').value = user.location;
+			document.getElementById('edit-profile-phone').value = phoneNumber; // Preload without +263
+			document.getElementById('edit-profile-whatsapp').value = whatsappNumber; // Preload without +263
+			document.getElementById('edit-profile-bio').value = user.bio;
+
+			// Display the current profile picture
+			editProfilePicPreview.innerHTML = `
+				<div class="image-preview-item">
+					<img src="${user.profilePic}" alt="Profile Picture" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+				</div>
+			`;
+
+			// Handle profile picture upload
+			document.getElementById('edit-profile-pic-upload').addEventListener('click', () => {
+				document.getElementById('edit-profile-pic-input').click();
+			});
+
+			document.getElementById('edit-profile-pic-input').addEventListener('change', (e) => {
+				const file = e.target.files[0];
+				if (file && file.type.startsWith('image/')) {
+					const reader = new FileReader();
+					reader.onload = (e) => {
+						editProfilePicPreview.innerHTML = `
+							<div class="image-preview-item">
+								<img src="${e.target.result}" alt="Profile Picture" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+							</div>
+						`;
+					};
+					reader.readAsDataURL(file);
+				}
+			});
+
+			// Handle form submission
+			editProfileForm.addEventListener('submit', (e) => {
+				e.preventDefault();
+
+				const displayName = document.getElementById('edit-profile-display-name').value;
+				const location = document.getElementById('edit-profile-location-id').value;
+
+				if (!location) {
+					showMessage('Please select a location', 'error');
+					return;
+				}
+
+				// Add the +263 prefix when saving the numbers
+				const phone = document.getElementById('enable-phone').checked
+					? '+263' + document.getElementById('edit-profile-phone').value
+					: null;
+				const whatsapp = document.getElementById('enable-whatsapp').checked
+					? '+263' + document.getElementById('edit-profile-whatsapp').value
+					: null;
+
+				const bio = document.getElementById('edit-profile-bio').value;
+				const profilePic = editProfilePicPreview.querySelector('img').src;
+
+				if (!phone && !whatsapp) {
+					showMessage('Please provide at least one contact method', 'error');
+					return;
+				}
+
+				// Update the user's profile
+				currentUser.displayName = displayName;
+				currentUser.location = location;
+				currentUser.phone = phone;
+				currentUser.whatsapp = whatsapp;
+				currentUser.bio = bio;
+				currentUser.profilePic = profilePic;
+
+				showMessage('Profile updated successfully!', 'success');
+				closeModal(editProfileModal);
+				updateAuthUI();
+				renderProfile(currentUser.id);
+			});
+
+			openModal(editProfileModal);
+		}
+				
+		function openEditListingModal(listingId) {
+			const editListingModal = document.getElementById('edit-listing-modal');
+			const editListingForm = document.getElementById('edit-listing-form');
+			const listing = [...fakeDb.products, ...fakeDb.services].find(item => item.id === Number(listingId));
+			const locationName = getLocationName(listing.location);
+
+			if (!listing) {
+				showMessage('Listing not found', 'error');
+				return;
+			}
+
+			// Populate the form with listing data
+			document.getElementById('edit-listing-type').value = listing.type;
+			document.getElementById('edit-listing-title').value = listing.title;
+			document.getElementById('edit-listing-price').value = listing.price;
+			document.getElementById('edit-listing-location-name').value = locationName;
+			document.getElementById('edit-listing-location-id').value = listing.location;
+			document.getElementById('edit-listing-category').value = listing.category; // Set category
+			document.getElementById('edit-listing-description').value = listing.description;
+
+			// Render existing images
+			renderEditListingImagePreviews(listing);
+			
+			// Event listener for image upload
+			document.getElementById('edit-image-upload').addEventListener('click', () => {
+				document.getElementById('edit-image-input').click();
+			});
+
+			document.getElementById('edit-image-input').addEventListener('change', (e) => {
+				const files = e.target.files;
+				if (files.length > 5) {
+					showMessage('You can upload a maximum of 5 images', 'error');
+					return;
+				}
+
+				for (let i = 0; i < files.length; i++) {
+					const file = files[i];
+					if (file.type.startsWith('image/')) {
+						const reader = new FileReader();
+						reader.onload = (e) => {
+							listing.images.push(e.target.result); // Store image data
+							renderEditListingImagePreviews(listing); // Re-render previews after each image is loaded
+						};
+						reader.readAsDataURL(file);
+					}
+				}
+			});
+
+
+			// Handle form submission
+			editListingForm.addEventListener('submit', (e) => {
+				e.preventDefault();
+
+				// Update the listing
+				listing.type = document.getElementById('edit-listing-type').value;
+				listing.title = document.getElementById('edit-listing-title').value;
+				listing.price = parseFloat(document.getElementById('edit-listing-price').value);
+				listing.location = document.getElementById('edit-listing-location-id').value;
+				
+				if (!location) {
+					showMessage('Please select a location', 'error');
+					return;
+				}
+				listing.category = document.getElementById('edit-listing-category').value; // Update category
+				listing.description = document.getElementById('edit-listing-description').value;
+
+				showMessage('Listing updated successfully!', 'success');
+				closeModal(editListingModal);
+				renderDashboard();
+				switchTab('listings-content');
+			});
+
+			openModal(editListingModal);
+		}
+
+		function handleDeleteListing(listingId) {
+			if (!currentUser) {
+				showMessage('Please login to delete a listing', 'error');
+				return;
+			}
+
+			// Convert listingId to a number (if it's a string)
+			listingId = Number(listingId);
+
+			// Find the listing in products or services
+			const productIndex = fakeDb.products.findIndex(product => product.id === listingId);
+			const serviceIndex = fakeDb.services.findIndex(service => service.id === listingId);
+
+			if (productIndex !== -1) {
+				fakeDb.products.splice(productIndex, 1);
+			} else if (serviceIndex !== -1) {
+				fakeDb.services.splice(serviceIndex, 1);
+			} else {
+				showMessage('Listing not found', 'error');
+				return;
+			}
+
+			showMessage('Listing deleted successfully', 'success');
+			renderDashboard(); // Re-render the dashboard to reflect changes
+		}
+
+		function handleDeleteListing(listingId) {
+			if (!currentUser) {
+				showMessage('Please login to delete a listing', 'error');
+				return;
+			}
+
+			// Convert listingId to a number (if it's a string)
+			listingId = Number(listingId);
+
+			// Find the listing in products or services
+			const productIndex = fakeDb.products.findIndex(product => product.id === listingId);
+			const serviceIndex = fakeDb.services.findIndex(service => service.id === listingId);
+
+			if (productIndex !== -1) {
+				fakeDb.products.splice(productIndex, 1);
+			} else if (serviceIndex !== -1) {
+				fakeDb.services.splice(serviceIndex, 1);
+			} else {
+				showMessage('Listing not found', 'error');
+				return;
+			}
+
+			showMessage('Listing deleted successfully', 'success');
+			renderDashboard(); // Re-render the dashboard to reflect changes
+		}
+		
+		function sortListings(listings, sortBy) {
+			let sortedListings = [...listings];
+
+			switch (sortBy) {
+				case 'recommended':
+					// Calculate max likes and max date for normalization
+					const maxLikes = Math.max(...sortedListings.map(item => item.likes), 1);
+					const maxDate = Math.max(...sortedListings.map(item => new Date(item.createdAt).getTime()), 1);
+
+					// Calculate scores for each listing
+					sortedListings.forEach(item => {
+						item.score = calculateScore(item, maxLikes, maxDate);
+					});
+
+					// Sort by score in descending order
+					sortedListings.sort((a, b) => b.score - a.score);
+					break;
+
+				case 'latest':
+					sortedListings.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Sort by latest
+					break;
+
+				case 'name':
+					sortedListings.sort((a, b) => a.title.localeCompare(b.title)); // Sort by name (A-Z)
+					break;
+
+				case 'price-low-to-high':
+					sortedListings.sort((a, b) => a.price - b.price); // Sort by price (low to high)
+					break;
+
+				case 'price-high-to-low':
+					sortedListings.sort((a, b) => b.price - a.price); // Sort by price (high to low)
+					break;
+
+				default:
+					break; // No sorting
+			}
+
+			return sortedListings;
+		}
+		
+		function renderBrowseListings() {
+			currentView = 'browse-listings'
+			const selectedLocation = getSelectedLocation(); // Get the selected location
+			let combinedListings = [...fakeDb.products, ...fakeDb.services]; // Use 'let' instead of 'const'
+
+			if (selectedLocation === 'all') {
+				// Include all cities but exclude campuses
+				combinedListings = combinedListings.filter(item => 
+					locations.cities.some(city => city.id === item.location)
+				);
+			} else if (selectedLocation) {
+				// Filter by the selected location
+				combinedListings = combinedListings.filter(item => item.location === selectedLocation);
+			}
+
+			// Sort the combined listings based on the current sorting option
+			const sortedListings = sortListings(combinedListings, currentSortBy);
+
+			// Check if there are no listings to display
+			const noListingsMessage = `
+				<div class="not-found-container">
+					<div class="not-found-content">
+						<i class="fas fa-exclamation-triangle not-found-icon"></i>
+						<h2 class="not-found-title">No Listings Found</h2>
+						<p class="not-found-message">There are no listings available in this category or location.</p>
+					</div>
+				</div>
+			`;
+
+			const html = `
+				<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+					<div>
+						<h2 class="section-title">All Listings</h2>
+						<p class="section-subtitle">Browse all available products and services</p>
+					</div>
+					<div>
+						<select id="sort-by" class="sort-dropdown">
+							<option value="recommended" ${currentSortBy === 'recommended' ? 'selected' : ''}>Sort by: Recommended</option>
+							<option value="latest" ${currentSortBy === 'latest' ? 'selected' : ''}>Sort by: Latest</option>
+							<option value="name" ${currentSortBy === 'name' ? 'selected' : ''}>Sort by: Name</option>
+							<option value="price-low-to-high" ${currentSortBy === 'price-low-to-high' ? 'selected' : ''}>Sort by: Price (Low to High)</option>
+							<option value="price-high-to-low" ${currentSortBy === 'price-high-to-low' ? 'selected' : ''}>Sort by: Price (High to Low)</option>
+						</select>
+					</div>
+				</div>
+				${sortedListings.length > 0 ? `
+					<div class="listings-grid">
+						${sortedListings.map(listing => createListingCard(listing)).join('')}
+					</div>
+				` : noListingsMessage}
+			`;
+
+			mainContent.innerHTML = html;
+
+			// Add event listener for the sort dropdown
+			document.getElementById('sort-by').addEventListener('change', (e) => {
+				currentSortBy = e.target.value; // Update the current sorting option
+				const sortedListings = sortListings(combinedListings, currentSortBy); // Sort the listings
+				renderBrowseListings(); // Re-render the combined listings with sorted data
+			});
+
+			// Add event listeners to listing cards
+			addListingCardEventListeners();
+		}
+		
+		// Render location lists (cities and campuses)
+		function renderLocationLists(searchQuery) {
+			const cityList = document.getElementById('city-list');
+			const campusList = document.getElementById('campus-list');
+
+			// Clear existing lists
+			cityList.innerHTML = '';
+			campusList.innerHTML = '';
+
+			// Filter and render cities (limit to 5)
+			locations.cities
+				.filter(city => city.name.toLowerCase().includes(searchQuery.toLowerCase()))
+				.slice(0, 5) // Limit to 5 cities
+				.forEach(city => {
+					const cityElement = document.createElement('div');
+					cityElement.textContent = city.name;
+					cityElement.setAttribute('data-id', city.id);
+					cityElement.addEventListener('click', () => selectLocation(city.id, city.name));
+					cityList.appendChild(cityElement);
+				});
+
+			// Filter and render campuses (limit to 5)
+			locations.campuses
+				.filter(campus => campus.name.toLowerCase().includes(searchQuery.toLowerCase()))
+				.slice(0, 5) // Limit to 5 campuses
+				.forEach(campus => {
+					const campusElement = document.createElement('div');
+					campusElement.textContent = campus.name;
+					campusElement.setAttribute('data-id', campus.id);
+					campusElement.addEventListener('click', () => selectLocation(campus.id, campus.name));
+					campusList.appendChild(campusElement);
+				});
+		}
+
+		// Handle location selection
+		function selectLocation(id, name) {
+			const locationModal = document.getElementById('location-modal');
+			const purpose = locationModal.getAttribute('data-purpose');
+
+			if (purpose === 'filter') {
+				// Update the global filtering state
+				setSelectedLocation(id, name);
+			} else if (purpose === 'add-listing') {
+				// Update the location in the "Add Listing" form
+				document.getElementById('listing-location-name').value = name;
+				document.getElementById('listing-location-id').value = id; // Store ID
+			} else if (purpose === 'edit-listing') {
+				// Update the location in the "Edit Listing" form
+				document.getElementById('edit-listing-location-name').value = name;
+				document.getElementById('edit-listing-location-id').value = id; // Store ID
+			} else if (purpose === 'edit-profile') {
+				// Update the location in the "Edit Profile" form
+				document.getElementById('edit-profile-location-name').value = name;
+				document.getElementById('edit-profile-location-id').value = id; // Store ID
+			}
+
+			closeModal(locationModal);
+		}
+		
+		function setSelectedLocation(locationId, locationName) {
+			localStorage.setItem('selectedLocation', locationId);
+			updateLocationIcon(locationName);
+			showMessage(`Location set to: ${locationName}`, 'success');
+			filterListingsByLocation(locationId);
+		}
+
+		// Update the location icon with the selected location name
+		function updateLocationIcon(locationName = '') {
+			const locationIcon = document.getElementById('location-icon');
+			const locationText = document.getElementById('location-text');
+
+			if (locationName === 'All' || getSelectedLocation() === 'all') {
+				locationText.style.display = 'inline';
+				locationText.textContent = 'All';
+			} else if (locationName) {
+				// Show the location text and update its content
+				locationText.style.display = 'inline';
+				locationText.textContent = locationName;
+			} else {
+				// Hide the location text if no location is selected
+				locationText.style.display = 'none';
+			}
+		}
+		
+		function populateCategoryDropdown(dropdownId) {
+			const dropdown = document.getElementById(dropdownId);
+			if (dropdown) {
+				dropdown.innerHTML = `
+					<option value="">Select Category</option>
+					${Object.keys(categories).map(categoryId => `
+						<option value="${categoryId}">${categories[categoryId].name}</option>
+					`).join('')}
+				`;
+			}
+		}
+		
+		function openLocationModal(purpose) {
+			const locationModal = document.getElementById('location-modal');
+			const defaultToAllButton = document.getElementById('default-to-all-button');
+
+			// Set the purpose in a data attribute
+			locationModal.setAttribute('data-purpose', purpose);
+
+			if (purpose === 'filter') {
+				defaultToAllButton.style.display = 'block';
+			} else {
+				defaultToAllButton.style.display = 'none';
+			}
+
+			openModal(locationModal);
+			renderLocationLists('');
+		}
+		
+		function handleDeleteListing(listingId) {
+			const confirmDelete = confirm("Are you sure you want to delete this listing? This action cannot be undone.");
+			if (confirmDelete) {
+				// Convert listingId to a number (if it's a string)
+				listingId = Number(listingId);
+
+				// Find the listing in products or services
+				const productIndex = fakeDb.products.findIndex(product => product.id === listingId);
+				const serviceIndex = fakeDb.services.findIndex(service => service.id === listingId);
+
+				if (productIndex !== -1) {
+					fakeDb.products.splice(productIndex, 1);
+				} else if (serviceIndex !== -1) {
+					fakeDb.services.splice(serviceIndex, 1);
+				} else {
+					showMessage('Listing not found', 'error');
+					return;
+				}
+
+				showMessage('Listing deleted successfully', 'success');
+				renderDashboard(); // Re-render the dashboard to reflect changes
+				switchTab('listings-content'); // Ensure the user stays on the listings tab
+			}
+		}
+		
+		function handleLogout() {
+			const confirmLogout = confirm("Are you sure you want to log out?");
+			if (confirmLogout) {
+				currentUser = null;
+				updateAuthUI();
+				renderView('home');
+				showMessage('Logged out successfully', 'success');
+			}
+		}
+		
+		function toggleRequiredAttribute(checkboxId, inputId) {
+			const checkbox = document.getElementById(checkboxId);
+			const input = document.getElementById(inputId);
+
+			checkbox.addEventListener('change', () => {
+				if (checkbox.checked) {
+					input.disabled = false;
+					input.setAttribute('required', true); // Add required attribute
+				} else {
+					input.disabled = true;
+					input.removeAttribute('required'); // Remove required attribute
+					input.value = ''; // Clear input if disabled
+				}
+			});
+
+			// Initialize required attribute based on initial checkbox state
+			if (checkbox.checked) {
+				input.setAttribute('required', true);
+			} else {
+				input.removeAttribute('required');
+			}
+		}
+		
+		function normalize(value, max) {
+			return value / max;
+		}
+
+		function calculateScore(listing, maxLikes, maxDate) {
+			const likesScore = normalize(listing.likes, maxLikes) * 0.5;
+			const recencyScore = normalize((new Date(maxDate) - new Date(listing.createdAt)) / (1000 * 60 * 60 * 24), maxDate) * 0.5;
+			return likesScore + recencyScore;
+		}
+		
+		function openOTPModal(email, signupData) {
+			const otpModal = document.getElementById('otp-modal');
+			const otpEmail = document.getElementById('otp-email');
+
+			if (!otpEmail) {
+				console.error('Element with id "otp-email" not found.');
+				return;
+			}
+
+			otpEmail.textContent = email; // Set the email in the modal
+			openModal(otpModal);
+
+			// Reset OTP inputs and error message
+			resetOTPInputs();
+			document.getElementById('otp-error').style.display = 'none';
+
+			// Start the resend OTP timer
+			startResendTimer();
+
+			// Store the signup data in the modal for later use
+			otpModal.setAttribute('data-signup-data', JSON.stringify(signupData));
+		}
+
+		function resetOTPInputs() {
+			const otpInputs = document.querySelectorAll('.otp-input');
+			otpInputs.forEach(input => {
+				input.value = '';
+				input.classList.remove('error');
+			});
+
+			// Focus on the first input box after reset
+			otpInputs[0].focus();
+		}
+
+		function startResendTimer() {
+			let timeLeft = 30;
+			const resendBtn = document.getElementById('resend-otp-btn');
+			const timerText = document.getElementById('resend-timer');
+			const resendText = document.getElementById('resend-text');
+
+			if (!resendBtn || !timerText || !resendText) {
+				console.error("Required elements not found.");
+				return;
+			}
+
+			// Show the timer elements
+			resendText.style.display = "inline";
+			timerText.style.display = "inline";
+			timerText.textContent = timeLeft;
+
+			resendBtn.disabled = true;
+			resendTimer = setInterval(() => {
+				timeLeft--;
+				timerText.textContent = timeLeft;
+
+				if (timeLeft <= 0) {
+					clearInterval(resendTimer);
+					resendBtn.disabled = false;
+					// Hide the timer elements
+					resendText.textContent = "Resend OTP";
+					timerText.style.display = "none";
+				}
+			}, 1000);
+		}
+
+		function handleOTPInput(e) {
+			const input = e.target;
+			const nextInput = input.getAttribute('data-next');
+			const previousInput = input.getAttribute('data-previous');
+
+			// Auto-focus next input
+			if (input.value.length === 1 && nextInput) {
+				document.getElementById(nextInput).focus();
+			}
+
+			// Auto-focus previous input on backspace
+			if (e.key === 'Backspace' && previousInput) {
+				document.getElementById(previousInput).focus();
+			}
+
+			// Check if all OTP inputs are filled
+			const otpInputs = document.querySelectorAll('.otp-input');
+			const otp = Array.from(otpInputs).map(input => input.value).join('');
+
+			if (otp.length === 4) {
+				verifyOTP(otp);
+			}
+		}
+
+		function verifyOTP(otp) {
+			if (otp === OTP_CODE) {
+				// OTP is correct
+				showMessage('OTP verified successfully!', 'success');
+				closeModal(document.getElementById('otp-modal'));
+				clearInterval(resendTimer);
+
+				// Check if this is a password reset flow
+				const email = document.getElementById('otp-email-for-reset').value;
+				if (email) {
+					// Redirect to the settings page for password reset
+					const user = fakeDb.users.find(u => u.email === email);
+					if (user) {
+						currentUser = user;
+						updateAuthUI();
+						renderView('settings');
+					}
+				} else {
+					// Handle signup flow (existing logic)
+					const otpModal = document.getElementById('otp-modal');
+					const signupData = JSON.parse(otpModal.getAttribute('data-signup-data'));
+					createAccount(signupData);
+				}
+			} else {
+				// OTP is incorrect
+				document.querySelectorAll('.otp-input').forEach(input => input.classList.add('error'));
+				document.getElementById('otp-error').style.display = 'block';
+
+				// Reset after 3 seconds
+				otpTimer = setTimeout(() => {
+					resetOTPInputs();
+					document.getElementById('otp-error').style.display = 'none';
+				}, 3000);
+			}
+		}
+		
+		function loadContent(url, targetElementId) {
+			fetch(url)
+				.then(response => response.text())
+				.then(data => {
+					document.getElementById(targetElementId).innerHTML = data;
+					window.scrollTo(0, 0); // Scroll to the top of the page
+				})
+				.catch(error => console.error('Error loading content:', error));
+		}
+		
+        // Initial render
+        renderView('home');
+		renderLocationLists('');
+		searchInput.placeholder = 'What are you looking for?'; // Default placeholder
+		searchInput.setAttribute('data-search-type', 'all'); // Default search type
+		toggleRequiredAttribute('enable-phone', 'edit-profile-phone');
+		toggleRequiredAttribute('enable-whatsapp', 'edit-profile-whatsapp');
+
+		// Set default location to 'all' if no location is selected
+		if (!localStorage.getItem('selectedLocation')) {
+			localStorage.setItem('selectedLocation', 'all');
+			updateLocationIcon('All');
+		}else{
+			updateLocationIcon(getSelectedLocation().charAt(0).toUpperCase()+getSelectedLocation().slice(1));
+		}
+    </script>
+</body>
+</html>
