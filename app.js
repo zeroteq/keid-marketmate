@@ -14,27 +14,28 @@ const listingRoutes = require('./routes/listingRoutes');
 
 const app = express();
 
-// CORS Middleware - Ensures proper handling of preflight requests
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:8080"); // Allow frontend domain
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.header("Access-Control-Allow-Credentials", "true"); // Allow cookies & credentials
+// CORS Middleware (100% Working)
+app.use(cors({
+  origin: '*',  // Change this if needed
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true, 
+}));
 
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200); // Handle preflight requests
+// Manual CORS Fix (Handles all requests)
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*'); 
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
   }
 
   next();
 });
 
-// Middleware
-app.use(cors({
-  origin: ['http://localhost:8080', 'https://keid-marketmate.onrender.com'], // Allowed origins
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-}));
 app.use(bodyParser.json());
 
 // Routes
