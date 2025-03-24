@@ -4,56 +4,109 @@ const Product = require('../models/Product');
 const Service = require('../models/Service');
 const router = express.Router();
 
-// Add a like
+// Check if a user has liked a listing (GET /api/userLikes?userId=...&listingId=...)
+router.get('/', async (req, res) => {
+  try {
+    const { userId, listingId } = req.query;
+
+    if (!userId || !listingId) {
+      return res.status(400).json({ 
+        message: 'Missing userId or listingId in query params' 
+      });
+    }
+
+    const userLike = await UserLike.findOne({ userId, listingId });
+    res.json(userLike || null); // Returns null if no like exists
+
+  } catch (error) {
+    console.error('Error checking like:', error);
+    res.status(500).json({ message: 'Server error checking like status' });
+  }
+});
+
+// Add a like (POST /api/userLikes)
 router.post('/', async (req, res) => {
+  try {
     const { userId, listingId } = req.body;
 
-    // Check if the listing is a product or service
+    // Validate input
+    if (!userId || !listingId) {
+      return res.status(400).json({ 
+        message: 'Missing userId or listingId in request body' 
+      });
+    }
+
+    // Check if like already exists
+    const existingLike = await UserLike.findOne({ userId, listingId });
+    if (existingLike) {
+      return res.status(409).json({ 
+        message: 'User has already liked this listing' 
+      });
+    }
+
+    // Check if listing exists (product or service)
     const product = await Product.findById(listingId);
     const service = await Service.findById(listingId);
 
-    if (product) {
-        // Increment the likes count for the product
-        product.likes += 1;
-        await product.save();
-    } else if (service) {
-        // Increment the likes count for the service
-        service.likes += 1;
-        await service.save();
+    if (!product && !service) {
+      return res.status(404).json({ 
+        message: 'Listing not found' 
+      });
     }
 
-    // Save the user like
+    // Increment likes count
+    if (product) {
+      product.likes += 1;
+      await product.save();
+    } else {
+      service.likes += 1;
+      await service.save();
+    }
+
+    // Create new like
     const userLike = new UserLike({ userId, listingId });
     await userLike.save();
 
-    res.json(userLike);
+    res.status(201).json(userLike);
+
+  } catch (error) {
+    console.error('Error adding like:', error);
+    res.status(500).json({ message: 'Server error adding like' });
+  }
 });
 
-// Remove a like
+// Remove a like (DELETE /api/userLikes/:id)
 router.delete('/:id', async (req, res) => {
+  try {
     const userLike = await UserLike.findById(req.params.id);
 
-    if (userLike) {
-        // Check if the listing is a product or service
-        const product = await Product.findById(userLike.listingId);
-        const service = await Service.findById(userLike.listingId);
-
-        if (product) {
-            // Decrement the likes count for the product
-            product.likes -= 1;
-            await product.save();
-        } else if (service) {
-            // Decrement the likes count for the service
-            service.likes -= 1;
-            await service.save();
-        }
-
-        // Delete the user like
-        await UserLike.findByIdAndDelete(req.params.id);
-        res.json({ message: 'Like removed' });
-    } else {
-        res.status(404).json({ message: 'Like not found' });
+    if (!userLike) {
+      return res.status(404).json({ 
+        message: 'Like not found' 
+      });
     }
+
+    // Check if listing exists (product or service)
+    const product = await Product.findById(userLike.listingId);
+    const service = await Service.findById(userLike.listingId);
+
+    // Decrement likes count
+    if (product) {
+      product.likes = Math.max(0, product.likes - 1); // Prevent negative likes
+      await product.save();
+    } else if (service) {
+      service.likes = Math.max(0, service.likes - 1);
+      await service.save();
+    }
+
+    // Delete the like
+    await UserLike.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Like removed successfully' });
+
+  } catch (error) {
+    console.error('Error removing like:', error);
+    res.status(500).json({ message: 'Server error removing like' });
+  }
 });
 
 module.exports = router;
