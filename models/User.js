@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
     displayName: String,
     email: { type: String, unique: true },
     password: String,
-    profilePic: String,
+    profilePic: { type: String, default: 'https://picsum.photos/400/400?random=11' },
     phone: String,
     whatsapp: String,
     bio: String,
