@@ -2,15 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
 const serviceRoutes = require('./routes/serviceRoutes');
 const favoriteRoutes = require('./routes/favoriteRoutes');
 const userLikeRoutes = require('./routes/userLikeRoutes');
 const searchRoutes = require('./routes/searchRoutes');
-const authRoutes = require('./routes/authRoutes');
-const listingRoutes = require('./routes/listingRoutes');
+const authRoutes = require('./routes/authRoutes'); // New
+const listingRoutes = require('./routes/listingRoutes'); // New
 
 const app = express();
 
@@ -38,6 +37,7 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
+
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
@@ -45,11 +45,11 @@ app.use('/api/services', serviceRoutes);
 app.use('/api/favorites', favoriteRoutes);
 app.use('/api/userLikes', userLikeRoutes);
 app.use('/api/search', searchRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api/listings', listingRoutes);
+app.use('/api/auth', authRoutes); // New
+app.use('/api/listings', listingRoutes); // New
 
 // MongoDB Connection
-mongoose.connect('mongodb+srv://contactglobaldynamic:Gg5pSJWuPjducRjJ@cluster0.2tt69.mongodb.net/KeidZimbabwe?retryWrites=true&w=majority&appName=Cluster0', {
+mongoose.connect('mongodb+srv://contactglobaldynamic:Gg5pSJWuPjducRjJ@cluster0.2tt69.mongodb.net/marketplace?retryWrites=true&w=majority&appName=Cluster0', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
