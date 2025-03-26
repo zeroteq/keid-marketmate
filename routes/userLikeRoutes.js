@@ -7,15 +7,26 @@ const router = express.Router();
 // Check if a user has liked a listing
 router.get('/', async (req, res) => {
     try {
-        const { userId, listingId } = req.query;
+        const { userId, listingId, profileId } = req.query;
 
-        if (!userId || !listingId) {
+        if (!userId) {
             return res.status(400).json({ 
-                message: 'Missing userId or listingId in query params' 
+                message: 'Missing userId in query params' 
             });
         }
 
-        const userLike = await UserLike.findOne({ userId, listingId });
+        // Must have either listingId or profileId
+        if (!listingId && !profileId) {
+            return res.status(400).json({ 
+                message: 'Must provide either listingId or profileId' 
+            });
+        }
+
+        const query = { userId };
+        if (listingId) query.listingId = listingId;
+        if (profileId) query.profileId = profileId;
+
+        const userLike = await UserLike.findOne(query);
         res.json(userLike || null);
 
     } catch (error) {
