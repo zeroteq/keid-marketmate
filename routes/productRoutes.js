@@ -4,13 +4,17 @@ const router = express.Router();
 
 // Fetch All Products
 router.get('/', async (req, res) => {
-    const products = await Product.find().populate('userId','displayName');
+    const products = await Product.find()
+        .populate('userId', 'displayName profilePic')
+        .populate('likedBy favoritedBy', '_id');
     res.json(products);
 });
 
 // Fetch a Single Product by ID
 router.get('/:id', async (req, res) => {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id)
+        .populate('userId', 'displayName profilePic')
+        .populate('likedBy favoritedBy', '_id');
     if (product) {
         res.json(product);
     } else {
@@ -27,7 +31,10 @@ router.post('/', async (req, res) => {
 
 // Update a Product
 router.put('/:id', async (req, res) => {
-    const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const product = await Product.findByIdAndUpdate(req.params.id, req.body, { 
+        new: true 
+    }).populate('userId', 'displayName profilePic')
+      .populate('likedBy favoritedBy', '_id');
     if (product) {
         res.json(product);
     } else {

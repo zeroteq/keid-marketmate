@@ -4,13 +4,17 @@ const router = express.Router();
 
 // Fetch All Services
 router.get('/', async (req, res) => {
-    const services = await Service.find().populate('userId','displayName');
+    const services = await Service.find()
+        .populate('userId', 'displayName profilePic')
+        .populate('likedBy favoritedBy', '_id');
     res.json(services);
 });
 
 // Fetch a Single Service by ID
 router.get('/:id', async (req, res) => {
-    const service = await Service.findById(req.params.id);
+    const service = await Service.findById(req.params.id)
+        .populate('userId', 'displayName profilePic')
+        .populate('likedBy favoritedBy', '_id');
     if (service) {
         res.json(service);
     } else {
@@ -27,7 +31,10 @@ router.post('/', async (req, res) => {
 
 // Update a Service
 router.put('/:id', async (req, res) => {
-    const service = await Service.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const service = await Service.findByIdAndUpdate(req.params.id, req.body, { 
+        new: true 
+    }).populate('userId', 'displayName profilePic')
+      .populate('likedBy favoritedBy', '_id');
     if (service) {
         res.json(service);
     } else {
