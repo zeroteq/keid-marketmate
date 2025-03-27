@@ -7,8 +7,8 @@ const UserLike = require('../models/UserLike');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 
-// JWT Secret Key - Store this in environment variables in production
-const JWT_SECRET = 'your-secret-key'; // Change this to a secure random string
+// I just generated a random string
+const JWT_SECRET = '7c765f8b76978d3df73d0a78d98d4f072a9d854512b0c48b2d44dc75743c4790'; // Chill niggas during production we will change and add this to env vars as a secret
 
 // Function to generate JWT token
 const generateToken = (user) => {
