@@ -1,92 +1,125 @@
 const express = require('express');
-const User = require('../models/User');
+const UserLike = require('../models/UserLike');
 const Product = require('../models/Product');
 const Service = require('../models/Service');
-const Favorite = require('../models/Favorite');
-const UserLike = require('../models/UserLike');
 const router = express.Router();
 
-// Login
-router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email, password });
-    if (user) {
-        res.json(user);
-    } else {
-        res.status(401).json({ message: 'Invalid email or password' });
+// Check if a user has liked a listing
+router.get('/', async (req, res) => {
+    try {
+        const { userId, listingId, profileId } = req.query;
+
+        if (!userId) {
+            return res.status(400).json({ 
+                message: 'Missing userId in query params' 
+            });
+        }
+
+        // Must have either listingId or profileId
+        if (!listingId && !profileId) {
+            return res.status(400).json({ 
+                message: 'Must provide either listingId or profileId' 
+            });
+        }
+
+        const query = { userId };
+        if (listingId) query.listingId = listingId;
+        if (profileId) query.profileId = profileId;
+
+        const userLike = await UserLike.findOne(query);
+        res.json(userLike || null);
+
+    } catch (error) {
+        console.error('Error checking like:', error);
+        res.status(500).json({ message: 'Server error checking like status' });
     }
 });
 
-// Signup
-router.post('/signup', async (req, res) => {
-    const { name, email, password } = req.body;
-    const user = new User({ 
-        name, 
-        email, 
-        password,
-        displayName: name // Set displayName to the same value as name
-    });
-    await user.save();
-    res.json(user);
-});
+// Add a like
+router.post('/', async (req, res) => {
+    try {
+        const { userId, listingId } = req.body;
 
-// Fetch User Profile by ID
-router.get('/:id', async (req, res) => {
-    const user = await User.findById(req.params.id);
-    if (user) {
-        res.json(user);
-    } else {
-        res.status(404).json({ message: 'User not found' });
+        if (!userId || !listingId) {
+            return res.status(400).json({ 
+                message: 'Missing userId or listingId in request body' 
+            });
+        }
+
+        // Check if like already exists
+        const existingLike = await UserLike.findOne({ userId, listingId });
+        if (existingLike) {
+            return res.status(409).json({ 
+                message: 'User has already liked this listing' 
+            });
+        }
+
+        // Check if listing exists
+        const product = await Product.findById(listingId);
+        const service = await Service.findById(listingId);
+
+        if (!product && !service) {
+            return res.status(404).json({ 
+                message: 'Listing not found' 
+            });
+        }
+
+        // Update the listing (product or service)
+        if (product) {
+            product.likes += 1;
+            product.likedBy.push(userId);
+            await product.save();
+        } else {
+            service.likes += 1;
+            service.likedBy.push(userId);
+            await service.save();
+        }
+
+        // Create new like
+        const userLike = new UserLike({ userId, listingId });
+        await userLike.save();
+
+        res.status(201).json(userLike);
+
+    } catch (error) {
+        console.error('Error adding like:', error);
+        res.status(500).json({ message: 'Server error adding like' });
     }
 });
 
-// Update User Profile
-router.put('/:id', async (req, res) => {
-    const { displayName, phone, whatsapp, bio, profilePic, location } = req.body;
-    const user = await User.findByIdAndUpdate(
-        req.params.id,
-        { displayName, phone, whatsapp, bio, profilePic, location },
-        { new: true }
-    );
-    if (user) {
-        res.json(user);
-    } else {
-        res.status(404).json({ message: 'User not found' });
-    }
-});
-
-// Delete User Account
+// Remove a like
 router.delete('/:id', async (req, res) => {
-    const user = await User.findByIdAndDelete(req.params.id);
-    if (user) {
-        // Delete associated listings, favorites, and likes
-        await Product.deleteMany({ userId: user._id });
-        await Service.deleteMany({ userId: user._id });
-        await Favorite.deleteMany({ userId: user._id });
-        await UserLike.deleteMany({ userId: user._id });
-        res.json({ message: 'User deleted successfully' });
-    } else {
-        res.status(404).json({ message: 'User not found' });
+    try {
+        const userLike = await UserLike.findById(req.params.id);
+
+        if (!userLike) {
+            return res.status(404).json({ 
+                message: 'Like not found' 
+            });
+        }
+
+        // Update the listing (product or service)
+        const product = await Product.findById(userLike.listingId);
+        const service = await Service.findById(userLike.listingId);
+
+        if (product) {
+            product.likes = Math.max(0, product.likes - 1);
+            product.likedBy.pull(userLike.userId);
+            await product.save();
+        } else if (service) {
+            service.likes = Math.max(0, service.likes - 1);
+            service.likedBy.pull(userLike.userId);
+            await service.save();
+        }
+
+        // Delete the like
+        await UserLike.findByIdAndDelete(req.params.id);
+        res.json({ message: 'Like removed successfully' });
+
+    } catch (error) {
+        console.error('Error removing like:', error);
+        res.status(500).json({ message: 'Server error removing like' });
     }
-});
-
-// Fetch User's Listings
-router.get('/:id/listings', async (req, res) => {
-    const products = await Product.find({ userId: req.params.id });
-    const services = await Service.find({ userId: req.params.id });
-    res.json([...products, ...services]);
-});
-
-// Fetch User's Favorites
-router.get('/:id/favorites', async (req, res) => {
-    const favorites = await Favorite.find({ userId: req.params.id }).populate('listingId');
-    res.json(favorites);
-});
-
-// Fetch User's Likes
-router.get('/:id/likes', async (req, res) => {
-    const likes = await UserLike.find({ userId: req.params.id }).populate('listingId');
-    res.json(likes);
 });
 
 module.exports = router;
