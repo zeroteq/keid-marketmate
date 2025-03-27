@@ -3,6 +3,25 @@ const User = require('../models/User');
 const axios = require('axios');
 const router = express.Router();
 
+// Send OTP for Signup
+router.post('/send-otp', async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        // Call external OTP generation service
+        const response = await axios.post('https://email-auth-service.vercel.app/api/generate-otp', { email });
+
+        if (response.data.success) {
+            res.json({ message: 'OTP sent to your email' });
+        } else {
+            res.status(500).json({ message: 'Failed to send OTP' });
+        }
+    } catch (error) {
+        console.error('Error sending OTP:', error);
+        res.status(500).json({ message: 'Error in OTP generation' });
+    }
+});
+
 // Forgot password - Send OTP
 router.post('/forgot-password', async (req, res) => {
     try {
