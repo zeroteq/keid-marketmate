@@ -37,6 +37,10 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
+// Health check router for pinging the server to keep-alive 
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'healthy', timestamp: Date.now() });
+});
 
 // Routes
 app.use('/api/users', userRoutes);
