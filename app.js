@@ -49,7 +49,7 @@ app.use('/api/auth', authRoutes); // New
 app.use('/api/listings', listingRoutes); // New
 
 // MongoDB Connection
-mongoose.connect('mongodb+srv://contactglobaldynamic:Gg5pSJWuPjducRjJ@cluster0.2tt69.mongodb.net/marketzim?retryWrites=true&w=majority&appName=Cluster0', {
+mongoose.connect('mongodb+srv://contactglobaldynamic:Gg5pSJWuPjducRjJ@cluster0.2tt69.mongodb.net/keidcore?retryWrites=true&w=majority&appName=Cluster0', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
