@@ -20,7 +20,12 @@ router.post('/login', async (req, res) => {
 // Signup
 router.post('/signup', async (req, res) => {
     const { name, email, password } = req.body;
-    const user = new User({ name, email, password });
+    const user = new User({ 
+        name, 
+        email, 
+        password,
+        displayName: name // Set displayName to the same value as name
+    });
     await user.save();
     res.json(user);
 });
