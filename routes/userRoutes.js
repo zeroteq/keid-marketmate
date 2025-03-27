@@ -4,14 +4,33 @@ const Product = require('../models/Product');
 const Service = require('../models/Service');
 const Favorite = require('../models/Favorite');
 const UserLike = require('../models/UserLike');
+const jwt = require('jsonwebtoken');
 const router = express.Router();
+
+// JWT Secret Key - Store this in environment variables in production
+const JWT_SECRET = 'your-secret-key'; // Change this to a secure random string
+
+// Function to generate JWT token
+const generateToken = (user) => {
+    return jwt.sign(
+        { id: user._id, email: user.email },
+        JWT_SECRET,
+        { expiresIn: '30d' } // Token expires in 30 days
+    );
+};
 
 // Login
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email, password });
     if (user) {
-        res.json(user);
+        // Generate token
+        const token = generateToken(user);
+        // Return user data and token
+        res.json({
+            user,
+            token
+        });
     } else {
         res.status(401).json({ message: 'Invalid email or password' });
     }
@@ -27,8 +46,44 @@ router.post('/signup', async (req, res) => {
         displayName: name // Set displayName to the same value as name
     });
     await user.save();
-    res.json(user);
+    
+    // Generate token for new user
+    const token = generateToken(user);
+    
+    // Return user data and token
+    res.json({
+        user,
+        token
+    });
 });
+
+// Auth middleware to protect routes
+const protect = async (req, res, next) => {
+    let token;
+    
+    // Check if auth header exists and starts with Bearer
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+        try {
+            // Get token from header
+            token = req.headers.authorization.split(' ')[1];
+            
+            // Verify token
+            const decoded = jwt.verify(token, JWT_SECRET);
+            
+            // Get user from token
+            req.user = await User.findById(decoded.id).select('-password');
+            
+            next();
+        } catch (error) {
+            console.error(error);
+            res.status(401).json({ message: 'Not authorized, token failed' });
+        }
+    }
+    
+    if (!token) {
+        res.status(401).json({ message: 'Not authorized, no token' });
+    }
+};
 
 // Fetch User Profile by ID
 router.get('/:id', async (req, res) => {
@@ -87,6 +142,11 @@ router.get('/:id/favorites', async (req, res) => {
 router.get('/:id/likes', async (req, res) => {
     const likes = await UserLike.find({ userId: req.params.id }).populate('listingId');
     res.json(likes);
+});
+
+// Verify token route (useful for checking if token is valid)
+router.get('/auth/verify', protect, (req, res) => {
+    res.json({ isValid: true, user: req.user });
 });
 
 module.exports = router;
