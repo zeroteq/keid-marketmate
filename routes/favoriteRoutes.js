@@ -4,6 +4,24 @@ const Product = require('../models/Product');
 const Service = require('../models/Service');
 const router = express.Router();
 
+
+// Fetch favorites
+router.get('/', async (req, res) => {
+    try {
+        const { userId, listingId } = req.query;
+        if (!userId || !listingId) {
+            return res.status(400).json({ message: 'Missing userId or listingId in query params' });
+        }
+        
+        const favorite = await Favorite.findOne({ userId, listingId });
+        res.json(favorite || null);
+    } catch (error) {
+        console.error('Error checking favorite:', error);
+        res.status(500).json({ message: 'Server error checking favorite status' });
+    }
+});
+
+
 // Add to favorites
 router.post('/', async (req, res) => {
     try {
