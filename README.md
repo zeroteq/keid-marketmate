@@ -125,7 +125,7 @@ For development with auto-reload:
 ## Project Structure
 
 ```
-marketzim/
+keid-marketmate/
 ├── models/              # MongoDB schemas
 │   ├── User.js
 │   ├── Product.js
