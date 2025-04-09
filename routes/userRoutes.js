@@ -39,12 +39,20 @@ router.post('/login', async (req, res) => {
 // Signup
 router.post('/signup', async (req, res) => {
     const { name, email, password } = req.body;
+    
+    // Create user with all required fields initialized
     const user = new User({ 
         name, 
         email, 
         password,
-        displayName: name // Set displayName to the same value as name
+        displayName: name, 
+        phone: 'Not set',        
+        whatsapp: 'Not set',     
+        bio: 'Tell us about yourself...', 
+        location: 'Not specified',        
+        
     });
+    
     await user.save();
     
     // Generate token for new user
