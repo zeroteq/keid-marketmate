@@ -105,16 +105,29 @@ router.get('/:id', async (req, res) => {
 
 // Update User Profile
 router.put('/:id', async (req, res) => {
-    const { displayName, phone, whatsapp, bio, profilePic, location } = req.body;
-    const user = await User.findByIdAndUpdate(
-        req.params.id,
-        { displayName, phone, whatsapp, bio, profilePic, location },
-        { new: true }
-    );
-    if (user) {
-        res.json(user);
-    } else {
-        res.status(404).json({ message: 'User not found' });
+    const allowedFields = ['displayName', 'phone', 'whatsapp', 'bio', 'profilePic', 'location'];
+    const updateData = {};
+
+    for (const field of allowedFields) {
+        if (req.body[field] !== undefined) {
+            updateData[field] = req.body[field];
+        }
+    }
+
+    try {
+        const user = await User.findByIdAndUpdate(
+            req.params.id,
+            updateData,
+            { new: true }
+        );
+
+        if (user) {
+            res.json(user);
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating profile', error });
     }
 });
 
