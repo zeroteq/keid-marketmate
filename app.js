@@ -10,6 +10,8 @@ const userLikeRoutes = require('./routes/userLikeRoutes');
 const searchRoutes = require('./routes/searchRoutes');
 const authRoutes = require('./routes/authRoutes'); // New
 const listingRoutes = require('./routes/listingRoutes'); // New
+const userFollowerRoutes = require('./routes/userFollowerRoutes');
+
 
 const app = express();
 
@@ -51,6 +53,8 @@ app.use('/api/userLikes', userLikeRoutes);
 app.use('/api/search', searchRoutes);
 app.use('/api/auth', authRoutes); // New
 app.use('/api/listings', listingRoutes); // New
+app.use('/api/followers', userFollowerRoutes);
+
 
 // MongoDB Connection
 mongoose.connect('mongodb+srv://contactglobaldynamic:Gg5pSJWuPjducRjJ@cluster0.2tt69.mongodb.net/tengesazimbabwe?retryWrites=true&w=majority&appName=Cluster0', {
