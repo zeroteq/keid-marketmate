@@ -4,6 +4,7 @@ const Product = require('../models/Product');
 const Service = require('../models/Service');
 const Favorite = require('../models/Favorite');
 const UserLike = require('../models/UserLike');
+const UserFollower = require('../models/UserFollower');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 
@@ -140,6 +141,10 @@ router.delete('/:id', async (req, res) => {
         await Service.deleteMany({ userId: user._id });
         await Favorite.deleteMany({ userId: user._id });
         await UserLike.deleteMany({ userId: user._id });
+        // Also delete follow relationships
+        await UserFollower.deleteMany({ 
+            $or: [{ followerId: user._id }, { followedId: user._id }] 
+        });
         res.json({ message: 'User deleted successfully' });
     } else {
         res.status(404).json({ message: 'User not found' });
@@ -163,6 +168,54 @@ router.get('/:id/favorites', async (req, res) => {
 router.get('/:id/likes', async (req, res) => {
     const likes = await UserLike.find({ userId: req.params.id }).populate('listingId');
     res.json(likes);
+});
+
+// Fetch User's Followers
+router.get('/:id/followers', async (req, res) => {
+    try {
+        const followers = await UserFollower.find({ followedId: req.params.id })
+            .populate('followerId', 'name displayName profilePic');
+        
+        res.json(followers);
+    } catch (error) {
+        console.error('Error fetching followers:', error);
+        res.status(500).json({ message: 'Server error fetching followers' });
+    }
+});
+
+// Fetch Users that the User Follows
+router.get('/:id/following', async (req, res) => {
+    try {
+        const following = await UserFollower.find({ followerId: req.params.id })
+            .populate('followedId', 'name displayName profilePic');
+        
+        res.json(following);
+    } catch (error) {
+        console.error('Error fetching following:', error);
+        res.status(500).json({ message: 'Server error fetching following' });
+    }
+});
+
+// Get follower count
+router.get('/:id/follower-count', async (req, res) => {
+    try {
+        const count = await UserFollower.countDocuments({ followedId: req.params.id });
+        res.json({ count });
+    } catch (error) {
+        console.error('Error counting followers:', error);
+        res.status(500).json({ message: 'Server error counting followers' });
+    }
+});
+
+// Get following count
+router.get('/:id/following-count', async (req, res) => {
+    try {
+        const count = await UserFollower.countDocuments({ followerId: req.params.id });
+        res.json({ count });
+    } catch (error) {
+        console.error('Error counting following:', error);
+        res.status(500).json({ message: 'Server error counting following' });
+    }
 });
 
 // Verify token route (useful for checking if token is valid)
