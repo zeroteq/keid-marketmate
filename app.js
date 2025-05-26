@@ -57,7 +57,7 @@ app.use('/api/followers', userFollowerRoutes);
 
 
 // MongoDB Connection
-mongoose.connect('mongodb+srv://contactglobaldynamic:Gg5pSJWuPjducRjJ@cluster0.2tt69.mongodb.net/keidmarketzw?retryWrites=true&w=majority&appName=Cluster0', {
+mongoose.connect('mongodb+srv://contactglobaldynamic:Gg5pSJWuPjducRjJ@cluster0.2tt69.mongodb.net/keidmarketz?retryWrites=true&w=majority&appName=Cluster0', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
